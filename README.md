@@ -23,6 +23,8 @@
 보호가 필요한 노인에게 즉각적인 도움을 줄 수 있는 스마트 워치 어플과 노인의 생활 데이터를 열람할 수 있는 관리자 어플, 그리고 머신러닝을 이용해 노인의 낙상사고 패턴을 인식하고 파악하는 노인 종합 보호 시스템을 만들고자 한다.
 언제나 관리자가 보호 대상을 케어할 수 있고 수동적 연락이 아닌 자동 경고 알림으로 실시간 서비스를 제공하는 종합 노인 보호 시스템을 만들고자 한다.
 
+
+
 ### 2. Abstract 
 
 - As our society has started to become aging society, fall accidents are the most
@@ -51,11 +53,21 @@ of missing or abrupt changes of their dementia patients. Additionally, by using 
 In this project we are going to make smart watch application that gives immediate aid to elderly people who are in need, administrator application that provides elderly people's life pattern, and finally all-around care system for elderly that is capable of recognizing and identifying fall accident patterns using machine learning.
 An all-around care system for elderly that allows guardians to take care of their elderly or patients. A system that provides service which automatically, not passively, sends out notifications to users.
 
+
+
 ### 3. 소개 영상
 
 TBD
 
+
+
 ### 4. 팀 소개
+
+#### 지도교수
+
+##### 임성수 교수님
+
+
 
 #### 팀장
 
@@ -67,6 +79,8 @@ TBD
 이메일: younjae@kookmin.ac.kr
 역할: PM / API 서버 개발
 ```
+
+
 
 #### 팀원
 
@@ -115,9 +129,13 @@ TBD
 역할: API 서버 개발
 ```
 
+
+
 ### 5. 사용법
 
 TBD
+
+
 
 ### 6. 기타
 
