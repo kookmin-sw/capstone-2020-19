@@ -57,7 +57,7 @@ An all-around care system for elderly that allows guardians to take care of thei
 
 ### 3. 소개 영상
 
-TBD
+[![capstone](https://img.youtube.com/vi/cD-MY3LP3dE/maxresdefault.jpg)](https://youtu.be/cD-MY3LP3dE)
 
 
 
