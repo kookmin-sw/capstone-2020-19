@@ -39,15 +39,25 @@ public class MainActivity extends WearableActivity {
 
     SensorManager manager;
     List<Sensor> sensors;
+    String sensorValue = "";
+    final int SENSOR_NUMBER = 40;
 
     public SensorEventListener mySensorLister = new SensorEventListener() {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
             String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+            String temp = "";
             for(int index = 0;index < event.values.length;++index){
                 output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
+                temp +=  event.values[index] + ",";
             }
+            sensorValue += temp.substring(0, temp.length() - 1) + "\n";
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             println(output);
         }
 
@@ -75,14 +85,14 @@ public class MainActivity extends WearableActivity {
     protected void onPause(){
         super.onPause();
         manager.unregisterListener(mySensorLister);
+        submitData(sensorValue);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         manager.registerListener(
-                mySensorLister, sensors.get(0),
-                SensorManager.SENSOR_DELAY_UI);
+                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
     }
 
     public void getSensorList(){
@@ -128,8 +138,7 @@ public class MainActivity extends WearableActivity {
     }
     public void registerAccelerometerSensor(){
         manager.registerListener(
-                mySensorLister, sensors.get(0),
-                SensorManager.SENSOR_DELAY_UI);
+                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
     }
     public void println(String data){
         textView.setText(data);
