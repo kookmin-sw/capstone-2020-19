@@ -1,6 +1,8 @@
 package com.silverwatch.sensordata;
 
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
@@ -62,9 +64,11 @@ public class MainActivity extends WearableActivity {
             data += "#" + index + " : " + sensor.getName() + "\n";
             index++;
         }
-        submitData(data);
-        println(data);
+//        submitData(data);
+//        println(data);
+        registerFirstSensor();
     }
+
     public void submitData(String data){
         String url = "https://0i771f8hz3.execute-api.ap-northeast-2.amazonaws.com/demo/upload";
 
@@ -90,6 +94,27 @@ public class MainActivity extends WearableActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+    public void registerFirstSensor(){
+        manager.registerListener(
+                new SensorEventListener() {
+
+                    @Override
+                    public void onSensorChanged(SensorEvent event) {
+                        String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+                        for(int index = 0;index < event.values.length;++index){
+                            output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
+                        }
+                        println(output);
+                    }
+
+
+                    @Override
+                    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+                    }
+                }, sensors.get(40),
+                SensorManager.SENSOR_DELAY_UI);
     }
     public void println(String data){
         textView.setText(data);
