@@ -40,18 +40,49 @@ public class MainActivity extends WearableActivity {
     SensorManager manager;
     List<Sensor> sensors;
 
+    public SensorEventListener mySensorLister = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+            for(int index = 0;index < event.values.length;++index){
+                output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
+            }
+            println(output);
+        }
+
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = (TextView) findViewById(R.id.textView);
+        textView = findViewById(R.id.textView);
 
         // Enables Always-on
         setAmbientEnabled();
 
         getSensorList();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        manager.unregisterListener(mySensorLister);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        manager.registerListener(
+                mySensorLister, sensors.get(0),
+                SensorManager.SENSOR_DELAY_UI);
     }
 
     public void getSensorList(){
@@ -66,7 +97,7 @@ public class MainActivity extends WearableActivity {
         }
 //        submitData(data);
 //        println(data);
-        registerFirstSensor();
+        registerAccelerometerSensor();
     }
 
     public void submitData(String data){
@@ -95,25 +126,9 @@ public class MainActivity extends WearableActivity {
         });
         requestQueue.add(jsonObjectRequest);
     }
-    public void registerFirstSensor(){
+    public void registerAccelerometerSensor(){
         manager.registerListener(
-                new SensorEventListener() {
-
-                    @Override
-                    public void onSensorChanged(SensorEvent event) {
-                        String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
-                        for(int index = 0;index < event.values.length;++index){
-                            output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
-                        }
-                        println(output);
-                    }
-
-
-                    @Override
-                    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-                    }
-                }, sensors.get(40),
+                mySensorLister, sensors.get(0),
                 SensorManager.SENSOR_DELAY_UI);
     }
     public void println(String data){
