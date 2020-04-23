@@ -40,7 +40,7 @@ public class MainActivity extends WearableActivity {
 
     SensorManager manager;
     List<Sensor> sensors;
-    String sensorValue = "x,y,z";
+    String sensorValue = "x,y,z\n";
     final int SENSOR_NUMBER = 40;
 
     public SensorEventListener mySensorLister = new SensorEventListener() {
@@ -51,11 +51,11 @@ public class MainActivity extends WearableActivity {
             String output = "";
             String temp = "";
             for(int index = 0;index < event.values.length;++index){
-                output += event.values[index] + ",";
+                output += String.format("%.3f", event.values[index]) + ",";
                 temp +=  event.values[index] + ",";
             }
             sensorValue += temp.substring(0, temp.length() - 1) + "\n";
-            println(output);
+            println(output.substring(0, output.length() - 1));
             output = "";
         }
 
@@ -99,9 +99,10 @@ public class MainActivity extends WearableActivity {
 
     public void walkEndButtonClicked(View v){
         manager.unregisterListener(mySensorLister);
-        submitData(sensorValue);
+        if (!sensorValue.equals("x,y,z\n"))
+            submitData(sensorValue);
         println("WALK END");
-        sensorValue = "x,y,z";
+        sensorValue = "x,y,z\n";
     }
     public void getSensorList(){
         manager = (SensorManager) getSystemService(SENSOR_SERVICE);
