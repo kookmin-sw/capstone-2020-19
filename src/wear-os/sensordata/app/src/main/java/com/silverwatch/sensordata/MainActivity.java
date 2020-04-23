@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,26 +40,23 @@ public class MainActivity extends WearableActivity {
 
     SensorManager manager;
     List<Sensor> sensors;
-    String sensorValue = "";
+    String sensorValue = "x,y,z";
     final int SENSOR_NUMBER = 40;
 
     public SensorEventListener mySensorLister = new SensorEventListener() {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+//            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+            String output = "";
             String temp = "";
             for(int index = 0;index < event.values.length;++index){
-                output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
+                output += event.values[index] + ",";
                 temp +=  event.values[index] + ",";
             }
             sensorValue += temp.substring(0, temp.length() - 1) + "\n";
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             println(output);
+            output = "";
         }
 
 
@@ -85,16 +83,26 @@ public class MainActivity extends WearableActivity {
     protected void onPause(){
         super.onPause();
         manager.unregisterListener(mySensorLister);
-        submitData(sensorValue);
+//        submitData(sensorValue);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        manager.registerListener(
-                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
+//        manager.registerListener(
+//                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
+    }
+    public void walkButtonClicked(View v){
+        println("WALK START");
+        registerAccelerometerSensor();
     }
 
+    public void walkEndButtonClicked(View v){
+        manager.unregisterListener(mySensorLister);
+        submitData(sensorValue);
+        println("WALK END");
+        sensorValue = "x,y,z";
+    }
     public void getSensorList(){
         manager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensors = manager.getSensorList(Sensor.TYPE_ALL);
@@ -107,7 +115,7 @@ public class MainActivity extends WearableActivity {
         }
 //        submitData(data);
 //        println(data);
-        registerAccelerometerSensor();
+//        registerAccelerometerSensor();
     }
 
     public void submitData(String data){
