@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +29,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayDeque;
 import java.util.Map;
 
 public class MainActivity extends WearableActivity {
@@ -39,16 +42,27 @@ public class MainActivity extends WearableActivity {
 
     SensorManager manager;
     List<Sensor> sensors;
+    Deque<String> sensorData = new ArrayDeque<>();
+//    String sensorValue = "x,y,z\n";
+    final int SENSOR_NUMBER = 40;
+    boolean isWalk = true;
 
     public SensorEventListener mySensorLister = new SensorEventListener() {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+//            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+            String output = "";
+            String temp = "";
             for(int index = 0;index < event.values.length;++index){
-                output += ("value#" + (index + 1) + " : " + event.values[index] + "\n");
+                output += String.format("%.3f", event.values[index]) + ",";
+                temp +=  event.values[index] + ",";
             }
-            println(output);
+            if (sensorData.size() >= 3000) sensorData.pop();
+            sensorData.add(temp.substring(0, temp.length() - 1) + "\n");
+//            sensorValue += temp.substring(0, temp.length() - 1) + "\n";
+            println(output.substring(0, output.length() - 1));
+            output = "";
         }
 
 
@@ -75,14 +89,50 @@ public class MainActivity extends WearableActivity {
     protected void onPause(){
         super.onPause();
         manager.unregisterListener(mySensorLister);
+        finishAffinity();
+        System.exit(0);
+//        submitData(sensorValue);
+    }
+
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+////        manager.registerListener(
+////                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
+//    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        manager.unregisterListener(mySensorLister);
+        finishAffinity();
+        System.exit(0);
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        manager.registerListener(
-                mySensorLister, sensors.get(0),
-                SensorManager.SENSOR_DELAY_UI);
+    protected void onDestroy(){
+        super.onDestroy();
+        manager.unregisterListener(mySensorLister);
+        finishAffinity();
+        System.exit(0);
+    }
+
+    public void walkButtonClicked(View v){
+        println("WALK START");
+        isWalk = true;
+        registerAccelerometerSensor();
+    }
+
+    public void fallButtonClicked(View v){
+        println("FALL START");
+        isWalk = false;
+        registerAccelerometerSensor();
+    }
+
+    public void endButtonClicked(View v){
+        manager.unregisterListener(mySensorLister);
+        submitData();
+        println("END");
     }
 
     public void getSensorList(){
@@ -97,17 +147,25 @@ public class MainActivity extends WearableActivity {
         }
 //        submitData(data);
 //        println(data);
-        registerAccelerometerSensor();
+//        registerAccelerometerSensor();
     }
 
-    public void submitData(String data){
+    public void submitData(){
         String url = "https://0i771f8hz3.execute-api.ap-northeast-2.amazonaws.com/demo/upload";
-
+        String data = "x,y,z\n";
+        while(!sensorData.isEmpty()){
+            data += sensorData.poll();
+        }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JSONObject object = new JSONObject();
         try {
             //input your API parameters
             object.put("data", data);
+            if (isWalk){
+                object.put("isWalk", 1);
+            }else{
+                object.put("isWalk", 0);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,12 +183,16 @@ public class MainActivity extends WearableActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
+        sensorData = null;
+        System.gc();
+        sensorData = new ArrayDeque<>();
     }
+
     public void registerAccelerometerSensor(){
         manager.registerListener(
-                mySensorLister, sensors.get(0),
-                SensorManager.SENSOR_DELAY_UI);
+                mySensorLister, sensors.get(SENSOR_NUMBER), 100000);
     }
+
     public void println(String data){
         textView.setText(data);
     }
