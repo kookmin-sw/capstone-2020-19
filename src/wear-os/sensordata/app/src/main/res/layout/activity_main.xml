@@ -32,16 +32,23 @@
                 <Button
                     android:id="@+id/button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="38dp"
                     android:onClick="walkButtonClicked"
                     android:text="Walk Start" />
 
                 <Button
+                    android:id="@+id/button2"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:onClick="fallButtonClicked"
+                    android:text="FALL START" />
+
+                <Button
                     android:id="@+id/button4"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="walkEndButtonClicked"
-                    android:text="Walk End" />
+                    android:layout_height="38dp"
+                    android:onClick="endButtonClicked"
+                    android:text="End" />
 
             </LinearLayout>
         </ScrollView>
