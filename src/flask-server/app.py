@@ -1,6 +1,13 @@
 from flask import Flask, jsonify, request
+from flask_restful import Resource, Api
+from flask_restful import reqparse, abort
+from flask_cors import CORS
+import pymysql
+import json
 
 app = Flask(__name__)
+api = Api(app)
+cors = CORS(app)
 app.users = {}
 app.id_count = 1
 
@@ -17,9 +24,3 @@ def sign_up():
 
     return jsonify(new_user)
 
-@app.route('/timeline/<int:usser_id>', methods=['GET'])
-def timeline(user_id):
-    
-    return jsonify({
-        'user_id' : user_id,
-        'timeline': timeline})
