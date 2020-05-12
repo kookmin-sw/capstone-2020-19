@@ -15,25 +15,25 @@ def ping():
 
 parser = reqparse.RequestParser()
 parser.add_argument('battery', type = int)
-parser.add_argument('gps', type = tuple) #위도, 경도를 저장해야함
+parser.add_argument('gps', type = str)
 parser.add_argument('watch_id', type = str)
 
 class Check_write_watch_id(Resource):
     #시계 번호 추가
-    def add_watch_id(watch_id):
+    def add_watch_id(self, watch_id):
         f = open("watch_id", "a")
         f.write(watch_id)
         f.close()
 
     #시계 고유 번호 중복 여부 확인
-    def check_watch_id(watch_id):
+    def check_watch_id(self, watch_id):
         f = open("watch_id", "r")
-        while(Ture):
+        while(True):
             line = f.readline()
             if not line: break
             if watch_id == line:
                 return False
-        add_watch_id(watch_id)
+        add_watch_id(self, watch_id)
         return True
     
 class Status(Resource):
