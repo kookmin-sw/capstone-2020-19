@@ -17,7 +17,7 @@ USER = ''
 HOST = ''
 PASSWORD = ''
 
-class CheckWriteWatchID(Resource):
+class SetWatchID(Resource):
     parser.add_argument('watch_id', type = str)
     #시계 고유 번호 중복 여부 확인 GET
     def post(self, watch_id):
@@ -40,16 +40,16 @@ class GetBattery(Resource):
         cusor = db.cursor(pymysql.cursors.DictCursor)
         return "battery"
 
-class Get_gps(Resource):
+class GetGps(Resource):
     parser.add_argument('gps', type = str)
     def get(self):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         return "gps"
 
-api.add_resource(Check_write_watch_id, '/watch_id')
-api.add_resource(Get_battery, '/battery')
-api.add_resource(Get_gps, '/gps')
+api.add_resource(SetWatchID, '/watch_id')
+api.add_resource(GetBattery, '/battery')
+api.add_resource(GetGps, '/gps')
 api.add_resource(Status, '/status')
 
 if __name__ == '__main__':
