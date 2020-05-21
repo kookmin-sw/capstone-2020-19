@@ -30,10 +30,13 @@ class SetWatchID(Resource):
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT id FROM watch_user WHERE if(id == watch_id, 'exists', 'none');"
-        if(sql == 'exists'):
+        sql = "SELECT id FROM watch_user WHERE id == %s;"
+        res = cursor.execute(sql, (watch_id))
+        if(res == NONE):
             return False
-        else: sql = "INSERT id FROM watch_user "
+        else: 
+            sql = "INSERT INTO watch_user(id) VALUES(%s)"
+            cursor.execute(sql, watch_id)
         return True
     
 #서버 동작 확인용
