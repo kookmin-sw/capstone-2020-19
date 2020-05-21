@@ -11,38 +11,48 @@ api = Api(app)
 cors = CORS(app)
 
 parser = reqparse.RequestParser()
+parser.add_argument('watch_id', type = str)
+parser.add_argument('battery', type = str)
+parser.add_argument('gps', type = str)
 
-DB = ''
+#set database
+DB = 'silver_watch'
 USER = ''
 HOST = ''
-PASSWORD = ''
+PASSWORD = '1234qwer'
 
+#db에 watch id가 있는지 확인하고, 없으면 db에 저장
+#db에 존재하면 return false
 class SetWatchID(Resource):
-    parser.add_argument('watch_id', type = str)
     #시계 고유 번호 중복 여부 확인 GET
     def post(self, watch_id):
+        args = parser.parse_args()
+        watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-
+        sql = "SELECT id FROM watch_user WHERE if(id == watch_id, 'exists', 'none');"
+        if(sql == 'exists'):
+            return False
+        else: sql = "INSERT id FROM watch_user "
         return True
     
 #서버 동작 확인용
 class Status(Resource):
     def get(self):
-        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
-        cusor = db.cursor(pymysql.cursors.DictCursor)
         return {'status' : 'success'}
 
 class GetBattery(Resource):
-    parser.add_argument('battery', type = str)
     def get(self):
+        args = parser.parse_args()
+        battery = args['battery']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         return "battery"
 
 class GetGps(Resource):
-    parser.add_argument('gps', type = str)
     def get(self):
+        args = parser.parse_args()
+        gps = args['gps']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         return "gps"
