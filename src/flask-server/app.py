@@ -17,26 +17,32 @@ parser.add_argument('gps', type = str)
 
 #set database
 DB = 'silver_watch'
-USER = ''
-HOST = ''
+USER = 'root'
+HOST = 'localhost'
 PASSWORD = '1234qwer'
 
 #db에 watch id가 있는지 확인하고, 없으면 db에 저장
 #db에 존재하면 return false
 class SetWatchID(Resource):
-    #시계 고유 번호 중복 여부 확인 GET
+    def get(self):
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        sql = "SELECT id FROM watch_user WHERE id == %s;"
+        cusor.execute("show tables")
+        
+    #시계 고유 번호 중복 여부 확인 후 저장
     def post(self, watch_id):
         args = parser.parse_args()
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         sql = "SELECT id FROM watch_user WHERE id == %s;"
-        res = cursor.execute(sql, (watch_id))
-        if(res == NONE):
+        res = cusor.execute(sql, (watch_id))
+        if(res == "NULL"):
             return False
         else: 
             sql = "INSERT INTO watch_user(id) VALUES(%s)"
-            cursor.execute(sql, watch_id)
+            cusor.execute(sql, watch_id)
         return True
     
 #서버 동작 확인용
