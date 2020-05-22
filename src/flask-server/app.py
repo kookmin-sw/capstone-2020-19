@@ -25,10 +25,15 @@ PASSWORD = '1234qwer'
 #db에 존재하면 return false
 class SetWatchID(Resource):
     def get(self):
+        args = parser.parse_args()
+        watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         sql = "SELECT id FROM watch_user WHERE id == %s;"
-        cusor.execute("show tables")
+        cusor.execute(sql, (watch_id))
+        cusor.close()
+        db.commit()
+        db.close()
         
     #시계 고유 번호 중복 여부 확인 후 저장
     def post(self, watch_id):
@@ -39,11 +44,17 @@ class SetWatchID(Resource):
         sql = "SELECT id FROM watch_user WHERE id == %s;"
         res = cusor.execute(sql, (watch_id))
         if(res == "NULL"):
+            cusor.close()
+            db.commit()
+            db.close()
             return False
         else: 
             sql = "INSERT INTO watch_user(id) VALUES(%s)"
             cusor.execute(sql, watch_id)
-        return True
+            cusor.close()
+            db.commit()
+            db.close()
+            return True
     
 #서버 동작 확인용
 class Status(Resource):
@@ -54,16 +65,30 @@ class GetBattery(Resource):
     def get(self):
         args = parser.parse_args()
         battery = args['battery']
+        watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        return "battery"
+        sql = "SELECT battery FROM watch_user WHERE id == %s"
+        cusor.execute(sql, (watch_id))
+        rows = cusor.fetchall()
+        print(rows)
+        cusor.close()
+        db.commit()
+        db.close()
+        
 
 class GetGps(Resource):
     def get(self):
         args = parser.parse_args()
         gps = args['gps']
+        watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
+        sql = "SELECT gps FROM watch_user WHERE id == %s"
+        res = cusor.execute(sql, watch_id)
+        cusor.close()
+        db.commit()
+        db.close()
         return "gps"
 
 api.add_resource(SetWatchID, '/watch_id')
