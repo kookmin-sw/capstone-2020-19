@@ -15,10 +15,11 @@
         android:padding="@dimen/inner_frame_layout_padding"
         app:boxedEdges="all">
 
-        <Button
-            android:id="@+id/createQR"
-            android:layout_width="171dp"
-            android:layout_height="171dp"
-            android:text="QR Create" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/qrcode"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>
