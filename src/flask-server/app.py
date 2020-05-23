@@ -29,32 +29,35 @@ class SetWatchID(Resource):
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT id FROM watch_user WHERE id == %s;"
+        sql = "SELECT watch_id FROM watch_user WHERE watch_id = %s;"
         cusor.execute(sql, (watch_id))
         cusor.close()
         db.commit()
         db.close()
         
     #시계 고유 번호 중복 여부 확인 후 저장
-    def post(self, watch_id):
+    def post(self):
         args = parser.parse_args()
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT id FROM watch_user WHERE id == %s;"
+        sql = "SELECT watch_id FROM watch_user WHERE watch_id = %s;"
         res = cusor.execute(sql, (watch_id))
-        if(res == "NULL"):
+        if(res != "NULL"):
             cusor.close()
             db.commit()
             db.close()
-            return False
+            return "False"
         else: 
-            sql = "INSERT INTO watch_user(id) VALUES(%s)"
-            cusor.execute(sql, watch_id)
-            cusor.close()
-            db.commit()
-            db.close()
-            return True
+            try: 
+                sql = "INSERT INTO watch_user(watch_id) VALUES(%s)"
+                cusor.execute(sql, watch_id)
+                cusor.close()
+                db.commit()
+                db.close()
+            except Exception as e:
+                print(e)
+            return "OK"
     
 #서버 동작 확인용
 class Status(Resource):
@@ -64,18 +67,39 @@ class Status(Resource):
 class GetBattery(Resource):
     def get(self):
         args = parser.parse_args()
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try:
+            sql = "SELECT battery FROM watch_user WHERE watch_id = %s;"
+            cusor.execute(sql, (watch_id))
+            rows = cusor.fetchone()
+            print(rows)
+            result = rows['battery']
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status": "1", "battery": result}
+        except Exception as e:
+            print(e) 
+            return {"status" : "0"}
+
+    def post(self):
+        args = parser.parse_args()
         battery = args['battery']
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT battery FROM watch_user WHERE id == %s"
-        cusor.execute(sql, (watch_id))
-        rows = cusor.fetchall()
-        print(rows)
-        cusor.close()
-        db.commit()
-        db.close()
-        
+        try:
+            sql = "update watch_user set battery= %s WHERE watch_id = %s;"
+            cusor.execute(sql, (battery, watch_id))
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1}
+        except Exception as e:
+            print(e)
+            return {"status" : 0}
 
 class GetGps(Resource):
     def get(self):
@@ -84,12 +108,15 @@ class GetGps(Resource):
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT gps FROM watch_user WHERE id == %s"
-        res = cusor.execute(sql, watch_id)
-        cusor.close()
-        db.commit()
-        db.close()
-        return "gps"
+        try: 
+            sql = "SELECT gps FROM watch_user WHERE watch_id = %s"
+            res = cusor.execute(sql, watch_id)
+            cusor.close()
+            db.commit()
+            db.close()
+        except Exception as e:
+            print(e)
+            return {"status" : 0}
 
 api.add_resource(SetWatchID, '/watch_id')
 api.add_resource(GetBattery, '/battery')
