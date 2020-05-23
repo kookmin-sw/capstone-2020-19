@@ -34,6 +34,7 @@ class SetWatchID(Resource):
         cusor.close()
         db.commit()
         db.close()
+        return {"status":1}
         
     #시계 고유 번호 중복 여부 확인 후 저장
     def post(self):
@@ -47,7 +48,7 @@ class SetWatchID(Resource):
             cusor.close()
             db.commit()
             db.close()
-            return "False"
+            return {"status":0}
         else: 
             try: 
                 sql = "INSERT INTO watch_user(watch_id) VALUES(%s)"
@@ -55,16 +56,19 @@ class SetWatchID(Resource):
                 cusor.close()
                 db.commit()
                 db.close()
-            except Exception as e:
-                print(e)
-            return "OK"
+                return {"status":1}
+            except Exception :
+                cusor.close()
+                db.commit()
+                db.close()
+                return {"status":0}
     
 #서버 동작 확인용
 class Status(Resource):
     def get(self):
         return {'status' : 'success'}
 
-class GetBattery(Resource):
+class Battery(Resource):
     def get(self):
         args = parser.parse_args()
         watch_id = args['watch_id']
@@ -80,8 +84,10 @@ class GetBattery(Resource):
             db.commit()
             db.close()
             return {"status": "1", "battery": result}
-        except Exception as e:
-            print(e) 
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
             return {"status" : "0"}
 
     def post(self):
@@ -97,30 +103,55 @@ class GetBattery(Resource):
             db.commit()
             db.close()
             return {"status" : 1}
-        except Exception as e:
-            print(e)
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
             return {"status" : 0}
 
-class GetGps(Resource):
+class Gps(Resource):
     def get(self):
+        args = parser.parse_args()
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try: 
+            sql = "SELECT gps FROM watch_user WHERE watch_id = %s;"
+            cusor.execute(sql, watch_id)
+            rows = cusor.fetchone()
+            result = rows['gps']
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "gps" : result}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
+
+    def post(self):
         args = parser.parse_args()
         gps = args['gps']
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        try: 
-            sql = "SELECT gps FROM watch_user WHERE watch_id = %s"
-            res = cusor.execute(sql, watch_id)
+        try:
+            sql = "update watch_user set gps= %s WHERE watch_id = %s;"
+            cusor.execute(sql, (gps, watch_id))
             cusor.close()
             db.commit()
             db.close()
-        except Exception as e:
-            print(e)
+            return {"status" : 1}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
             return {"status" : 0}
 
 api.add_resource(SetWatchID, '/watch_id')
-api.add_resource(GetBattery, '/battery')
-api.add_resource(GetGps, '/gps')
+api.add_resource(Battery, '/battery')
+api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/status')
 
 if __name__ == '__main__':
