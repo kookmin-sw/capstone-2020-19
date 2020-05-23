@@ -36,6 +36,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ButtonQR"
+            android:theme="@style/Theme.AppCompat"/>
+        <activity
             android:name=".CreateQR"
             android:theme="@style/Theme.AppCompat"/>
     </application>
