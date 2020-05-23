@@ -22,7 +22,7 @@ public class MainActivity extends WearableActivity {
         // Enables Always-on
         setAmbientEnabled();
         SQLiteDatabase idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
-
+//        idDB.execSQL("DROP TABLE IF EXISTS " + tableName);
         idDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName
                 + " (uuid text);");
 

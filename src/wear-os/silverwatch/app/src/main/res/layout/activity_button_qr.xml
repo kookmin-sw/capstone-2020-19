@@ -17,8 +17,8 @@
 
         <Button
             android:id="@+id/createQR"
-            android:layout_width="161dp"
-            android:layout_height="160dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="QR Create" />
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>

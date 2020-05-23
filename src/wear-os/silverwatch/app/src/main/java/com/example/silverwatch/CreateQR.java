@@ -3,6 +3,7 @@ package com.example.silverwatch;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
