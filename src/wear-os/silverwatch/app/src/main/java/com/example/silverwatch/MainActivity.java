@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,26 +24,24 @@ public class MainActivity extends WearableActivity {
         SQLiteDatabase idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
 
         idDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName
-                + " (id VARCHAR(50));");
+                + " (uuid text);");
 
         Cursor c = idDB.rawQuery("SELECT * FROM " + tableName, null);
-        if (!c.moveToFirst()){
+        int rowCount = c.getCount();
+        Log.d("db", "Row Count: " + rowCount);
+        if (rowCount == 0){
             Intent intent = new Intent(MainActivity.this, ButtonQR.class);
             UUID one = UUID.randomUUID();
-            intent.putExtra("id", one.toString());
+
+            String uuid = one.toString();
+            intent.putExtra("id", uuid);
+            idDB.execSQL("INSERT INTO " + tableName + " VALUES ('" + uuid + "');");
             startActivity(intent);
+            finish();
         }
 
+        c.close();
+        idDB.close();
 
-//        createQRBtn = (Button) findViewById(R.id.createQR);
-//
-//        createQRBtn.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v){
-//                Intent intent = new Intent(MainActivity.this, ButtonQR.class);
-//                UUID one = UUID.randomUUID();
-//                intent.putExtra("id", one.toString());
-//                startActivity(intent);
-//            }
-//        });
     }
 }

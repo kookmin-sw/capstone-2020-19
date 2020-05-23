@@ -27,6 +27,7 @@ public class ButtonQR extends AppCompatActivity {
                 String text = prevIntent.getStringExtra("id");
                 intent.putExtra("id", text);
                 startActivity(intent);
+                finish();
             }
         });
     }
