@@ -44,6 +44,11 @@
             android:name=".CreateQR"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".registerFinished"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

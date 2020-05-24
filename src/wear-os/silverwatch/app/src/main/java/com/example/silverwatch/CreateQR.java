@@ -3,6 +3,8 @@ package com.example.silverwatch;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -12,6 +14,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.util.Date;
 
 public class CreateQR extends AppCompatActivity {
     private ImageView iv;
@@ -30,6 +34,29 @@ public class CreateQR extends AppCompatActivity {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             iv.setImageBitmap(bitmap);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run(){
+
+                    Date start = new Date();
+                    while(true){
+                        Date end = new Date();
+                        if ((end.getTime() - start.getTime()) / 1000 > 1) break;
+                    }
+                    Log.d("time", "start");
+                    start = new Date();
+                    while(true){
+                        Date end = new Date();
+                        if ((end.getTime() - start.getTime()) / 1000 > 2) break;
+                    }
+
+                    Log.d("time", "end");
+                    Intent mainIntent = new Intent(CreateQR.this, registerFinished.class);
+                    Log.d("Intent", "start finished activity");
+                    startActivity(mainIntent);
+                }
+            }, 500);
+
         }catch (Exception e){}
     }
 }
