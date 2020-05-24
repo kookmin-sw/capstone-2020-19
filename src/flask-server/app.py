@@ -46,33 +46,24 @@ class CheckID(Resource):
 #db에 watch id가 있는지 확인하고, 없으면 db에 저장
 #db에 존재하면 return false
 class SetWatchID(Resource):
-        
-    #시계 고유 번호 중복 여부 확인 후 저장
+    #시계 고유 번호 저장
     def post(self):
         args = parser.parse_args()
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
-        sql = "SELECT watch_id FROM watch_user WHERE watch_id = %s;"
-        res = cusor.execute(sql, (watch_id))
-        if(res != "NULL"):
+        try: 
+            sql = "INSERT INTO watch_user(watch_id) VALUES(%s)"
+            cusor.execute(sql, watch_id)
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status":1}
+        except Exception :
             cusor.close()
             db.commit()
             db.close()
             return {"status":0}
-        else: 
-            try: 
-                sql = "INSERT INTO watch_user(watch_id) VALUES(%s)"
-                cusor.execute(sql, watch_id)
-                cusor.close()
-                db.commit()
-                db.close()
-                return {"status":1}
-            except Exception :
-                cusor.close()
-                db.commit()
-                db.close()
-                return {"status":0}
     
 #서버 동작 확인용
 class Status(Resource):
