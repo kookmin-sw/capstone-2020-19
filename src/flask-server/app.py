@@ -36,11 +36,14 @@ class CheckID(Resource):
             db.commit()
             db.close()
             if res == 1:
+                #기능이 수행되고, 디비에 watch_id가 존재할때
                 return {"status": 1, "register_result": 1}
             else:
+                #기능이 수행되고 디비에 watch_id가 없을때
                 return {"status": 1, "reguster_result" : 0}
         except Exception as e:
             print(e)
+            #기능이 제대로 수행하지 않을때
             return {"status": 0, "register_result": 0}
 
 #db에 watch id가 있는지 확인하고, 없으면 db에 저장
