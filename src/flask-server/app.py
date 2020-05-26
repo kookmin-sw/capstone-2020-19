@@ -16,6 +16,7 @@ parser.add_argument('watch_battery', type = str)
 parser.add_argument('latitude', type = str) #위도
 parser.add_argument('longitude', type = str)#경도
 parser.add_argument('datetime', type = str)
+parser.add_argument('wear', type = bool) #스마트워치 착용여부
 
 #set database
 DB = 'silver_watch'
@@ -90,7 +91,7 @@ class Battery(Resource):
             sql = "SELECT watch_battery FROM watch_battery WHERE watch_id = %s;"
             cusor.execute(sql, (watch_id))
             rows = cusor.fetchone()
-            print(rows)
+            # print(rows)
             result = rows['watch_battery']
             cusor.close()
             db.commit()
@@ -169,8 +170,11 @@ class Gps(Resource):
             db.close()
             return {"status" : 0}
 
-# class CheckWear(Resource):
-#     def get
+class CheckWear(Resource):
+    def post(self):
+        args = parser.parse_args()
+        wear = args['wear']
+
 
 api.add_resource(SetWatchID, '/set_watch_id')
 api.add_resource(Battery, '/battery')
