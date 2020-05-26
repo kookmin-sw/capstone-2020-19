@@ -15,6 +15,7 @@ parser.add_argument('watch_id', type = str)
 parser.add_argument('watch_battery', type = str)
 parser.add_argument('latitude', type = str) #위도
 parser.add_argument('longitude', type = str)#경도
+parser.add_argument('datetime', type = str)
 
 #set database
 DB = 'silver_watch'
@@ -157,6 +158,7 @@ class Gps(Resource):
             cusor.execute(sql, (latitude, watch_id))
             sql = "update watch_gps set longitude= %s WHERE watch_id = %s;"
             cusor.execute(sql, (longitude, watch_id))
+            sql = "update watch_gps set time = "
             cusor.close()
             db.commit()
             db.close()
@@ -167,11 +169,15 @@ class Gps(Resource):
             db.close()
             return {"status" : 0}
 
+# class CheckWear(Resource):
+#     def get
+
 api.add_resource(SetWatchID, '/set_watch_id')
 api.add_resource(Battery, '/battery')
 api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/status')
 api.add_resource(CheckID, '/check_watch_id')
+api.add_resource(CheckWear, '/wear')
 
 if __name__ == '__main__':
     app.run(debug=True)
