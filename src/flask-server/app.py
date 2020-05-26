@@ -13,8 +13,8 @@ cors = CORS(app)
 parser = reqparse.RequestParser()
 parser.add_argument('watch_id', type = str)
 parser.add_argument('watch_battery', type = str)
-parser.add_argument('latitude', type = str)
-parser.add_argument('longtitude', type = str)
+parser.add_argument('latitude', type = str) #위도
+parser.add_argument('longitude', type = str)#경도
 
 #set database
 DB = 'silver_watch'
@@ -78,6 +78,7 @@ class Status(Resource):
     def get(self):
         return {'status' : 'success'}
 
+#배터리 기능
 class Battery(Resource):
     def get(self):
         args = parser.parse_args()
@@ -119,6 +120,8 @@ class Battery(Resource):
             db.close()
             return {"status" : 0}
 
+#gps 기능
+#latitude, longtitude 사용
 class Gps(Resource):
     def get(self):
         args = parser.parse_args()
@@ -126,15 +129,16 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT gps FROM watch_user WHERE watch_id = %s;"
+            sql = "SELECT latitude, longitude FROM watch_gps WHERE watch_id = %s;"
             cusor.execute(sql, watch_id)
             rows = cusor.fetchone()
-            result = rows['gps']
+            latitude_result = rows['latitude']
+            longitude_result = rows['longitude']
             #print(result)
             cusor.close()
             db.commit()
             db.close()
-            return {"status" : 1, "gps" : result}
+            return {"status" : 1, "latitude" : latitude_result, "longitude" : longitude_result}
         except Exception:
             cusor.close()
             db.commit()
@@ -143,13 +147,16 @@ class Gps(Resource):
 
     def post(self):
         args = parser.parse_args()
-        gps = args['gps']
+        latitude = args['latitude']
+        longitude = args['longitude']
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "update watch_gps set gps= %s WHERE watch_id = %s;"
-            cusor.execute(sql, (gps, watch_id))
+            sql = "update watch_gps set latitude= %s WHERE watch_id = %s;"
+            cusor.execute(sql, (latitude, watch_id))
+            sql = "update watch_gps set longitude= %s WHERE watch_id = %s;"
+            cusor.execute(sql, (longitude, watch_id))
             cusor.close()
             db.commit()
             db.close()
