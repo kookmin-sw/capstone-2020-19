@@ -88,7 +88,7 @@ class Battery(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "SELECT watch_battery FROM watch_battery WHERE watch_id = %s;"
+            sql = "SELECT watch_battery, time FROM watch_battery WHERE watch_id = %s;"
             cusor.execute(sql, (watch_id))
             rows = cusor.fetchone()
             # print(rows)
