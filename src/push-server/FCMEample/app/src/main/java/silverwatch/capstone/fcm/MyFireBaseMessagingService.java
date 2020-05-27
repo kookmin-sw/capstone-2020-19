@@ -45,7 +45,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.0){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 String channelName = "Channel Name";
                 NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
                 notificationManager.createNotificationChannel(channel);
