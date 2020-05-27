@@ -21,7 +21,8 @@
         </activity>
 
         <!--MyFireBaseMessagingService라는 클래스를 서비스로 등-->
-        <service android:name=".MyFireBaseMessagingService">
+        <service android:name=".MyFireBaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
