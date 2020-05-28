@@ -25,8 +25,8 @@ parser.add_argument('phone_number', type=str) #휴대폰 번호
 DB = 'silver_watch'
 USER = 'root'
 HOST = 'localhost'
-#PASSWORD = 'capstone19'
-PASSWORD = '1234qwer'
+PASSWORD = 'capstone19'
+#PASSWORD = '1234qwer'
 
 #db table structure
 #watch_user:
