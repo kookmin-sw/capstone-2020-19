@@ -5,23 +5,51 @@ from flask_restful import reqparse, abort
 from flask_cors import CORS
 import pymysql
 import json
+from datetime import datetime as dt
 
 app = Flask(__name__)
 api = Api(app)
 cors = CORS(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('watch_id', type = str)
-parser.add_argument('battery', type = str)
-parser.add_argument('gps', type = str)
+parser.add_argument('watch_id', type = str)#스마트워치 아이디
+parser.add_argument('watch_battery', type = str)#스마트워치 배터리
+parser.add_argument('latitude', type = str) #위도
+parser.add_argument('longitude', type = str)#경도
+parser.add_argument('datetime', type = str)#시간정보
+parser.add_argument('wear', type = str) #스마트워치 착용여부
 
 #set database
 DB = 'silver_watch'
 USER = 'root'
 HOST = 'localhost'
-PASSWORD = '1234qwer'
+PASSWORD = 'capstone19'
+#PASSWORD = '1234qwer'
+
+#db table structure
+#watch_user:
+#   watch_id: varchar(100) notNull Unique
+#   name: varchar(45)
+#   phone_number(45)
+#watch_gps:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   latitude: varchar(45) 
+#   longitude: varchar(45)
+#   time: datetime
+#watch_battery:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   battery: varchar(45)
+#   time: datetime
+#watch_wear:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   wear: bool
+#   time: datetime
 
 #db에 watch_id가 존재하는지 확인
+#저장할때 4개의 테이블에 다 저장되니까, parent table인 watch_user에서만 확인해도 된다
 class CheckID(Resource):
     def get(self):
         args = parser.parse_args()
@@ -31,7 +59,7 @@ class CheckID(Resource):
         try:
             sql = "SELECT watch_id FROM watch_user WHERE watch_id = %s;"
             res = cusor.execute(sql, (watch_id))
-            #print(res)
+            print(res)
             cusor.close()
             db.commit()
             db.close()
@@ -44,6 +72,7 @@ class CheckID(Resource):
 
 #db에 watch id가 있는지 확인하고, 없으면 db에 저장
 #db에 존재하면 return false
+#watch_user, watch_gps, watch_battery, watch_wear에 저장
 class SetWatchID(Resource):
     #시계 고유 번호 저장
     def post(self):
@@ -52,8 +81,12 @@ class SetWatchID(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "INSERT INTO watch_user(watch_id) VALUES(%s)"
-            cusor.execute(sql, watch_id)
+            sql = "INSERT INTO watch_user(watch_id) VALUES(%s)" 
+            cusor.execute(sql, (watch_id))
+            sql = "insert into watch_battery(watch_id) values(%s)"
+            cusor.execute(sql, (watch_id))
+            sql = "insert into watch_wear(watch_id) values(%s)"
+            cusor.execute(sql, (watch_id))
             cusor.close()
             db.commit()
             db.close()
@@ -69,6 +102,7 @@ class Status(Resource):
     def get(self):
         return {'status' : 'success'}
 
+#배터리 기능
 class Battery(Resource):
     def get(self):
         args = parser.parse_args()
@@ -76,11 +110,11 @@ class Battery(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "SELECT battery FROM watch_user WHERE watch_id = %s;"
+            sql = "SELECT watch_battery, time FROM watch_battery WHERE watch_id = %s;"
             cusor.execute(sql, (watch_id))
             rows = cusor.fetchone()
-            print(rows)
-            result = rows['battery']
+            # print(rows)
+            result = rows['watch_battery']
             cusor.close()
             db.commit()
             db.close()
@@ -93,13 +127,13 @@ class Battery(Resource):
 
     def post(self):
         args = parser.parse_args()
-        battery = args['battery']
+        watch_battery = args['watch_battery']
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "update watch_user set battery= %s WHERE watch_id = %s;"
-            cusor.execute(sql, (battery, watch_id))
+            sql = "update watch_battery set watch_battery= %s, time=now() WHERE watch_id = %s;"
+            cusor.execute(sql, (watch_battery, watch_id))
             cusor.close()
             db.commit()
             db.close()
@@ -110,6 +144,8 @@ class Battery(Resource):
             db.close()
             return {"status" : 0}
 
+#gps 기능
+#latitude, longtitude 사용
 class Gps(Resource):
     def get(self):
         args = parser.parse_args()
@@ -117,14 +153,16 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT gps FROM watch_user WHERE watch_id = %s;"
+            sql = "SELECT * FROM watch_gps WHERE watch_id = %s;"
             cusor.execute(sql, watch_id)
             rows = cusor.fetchone()
-            result = rows['gps']
+            latitude_result = rows['latitude']
+            longitude_result = rows['longitude']
+            #print(result)
             cusor.close()
             db.commit()
             db.close()
-            return {"status" : 1, "gps" : result}
+            return {"status" : 1, "latitude" : latitude_result, "longitude" : longitude_result}
         except Exception:
             cusor.close()
             db.commit()
@@ -133,13 +171,15 @@ class Gps(Resource):
 
     def post(self):
         args = parser.parse_args()
-        gps = args['gps']
+        latitude = args['latitude']
+        longitude = args['longitude']
         watch_id = args['watch_id']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "update watch_user set gps= %s WHERE watch_id = %s;"
-            cusor.execute(sql, (gps, watch_id))
+            #gps는 지속적인 기록이 필요하기때문에 insert를 사용한다(update를 사용하게되면 지속적인 기록이 아니라 기존 기록이 갱신되기만 함)
+            sql = "INSERT INTO watch_gps(watch_id, latitude, longitude, time) values(%s, %s, %s, now())"
+            cusor.execute(sql, (watch_id, latitude, longitude))
             cusor.close()
             db.commit()
             db.close()
@@ -150,11 +190,33 @@ class Gps(Resource):
             db.close()
             return {"status" : 0}
 
+class CheckWear(Resource):
+    def post(self):
+        args = parser.parse_args()
+        wear = args['wear']
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try:
+            sql = "UPDATE watch_wear set wear=%s, time=now() where watch_id=%s"
+            cusor.execute(sql, (wear, watch_id))
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
+
+
 api.add_resource(SetWatchID, '/set_watch_id')
 api.add_resource(Battery, '/battery')
 api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/status')
 api.add_resource(CheckID, '/check_watch_id')
+api.add_resource(CheckWear, '/wear')
 
 if __name__ == '__main__':
     app.run(debug=True)
