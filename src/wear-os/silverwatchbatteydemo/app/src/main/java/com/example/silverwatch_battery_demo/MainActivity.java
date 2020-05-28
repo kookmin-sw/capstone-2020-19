@@ -33,4 +33,25 @@ public class MainActivity extends WearableActivity {
 
         textView.setText(String.format("%s%%", value));
     }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        finishAffinity();
+        System.exit(0);
+    }
 }

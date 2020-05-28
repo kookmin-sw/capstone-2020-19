@@ -136,6 +136,27 @@ public class MainActivity extends WearableActivity {
         registerAccelerometerSensor();
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        finishAffinity();
+        System.exit(0);
+    }
+
     public void println(String data){
         textView.setText(data);
     }
