@@ -5,18 +5,19 @@ from flask_restful import reqparse, abort
 from flask_cors import CORS
 import pymysql
 import json
+from datetime import datetime as dt
 
 app = Flask(__name__)
 api = Api(app)
 cors = CORS(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('watch_id', type = str)
-parser.add_argument('watch_battery', type = str)
+parser.add_argument('watch_id', type = str)#스마트워치 아이디
+parser.add_argument('watch_battery', type = str)#스마트워치 배터리
 parser.add_argument('latitude', type = str) #위도
 parser.add_argument('longitude', type = str)#경도
-parser.add_argument('datetime', type = str)
-parser.add_argument('wear', type = bool) #스마트워치 착용여부
+parser.add_argument('datetime', type = str)#시간정보
+parser.add_argument('wear', type = str) #스마트워치 착용여부
 
 #set database
 DB = 'silver_watch'
@@ -58,8 +59,6 @@ class SetWatchID(Resource):
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
             sql = "INSERT INTO watch_user(watch_id) VALUES(%s)" 
-            cusor.execute(sql, (watch_id))
-            sql = "insert INTO watch_gps(watch_id) values(%s)"
             cusor.execute(sql, (watch_id))
             sql = "insert into watch_battery(watch_id) values(%s)"
             cusor.execute(sql, (watch_id))
@@ -110,7 +109,7 @@ class Battery(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "update watch_battery set watch_battery= %s WHERE watch_id = %s;"
+            sql = "update watch_battery set watch_battery= %s, time=now() WHERE watch_id = %s;"
             cusor.execute(sql, (watch_battery, watch_id))
             cusor.close()
             db.commit()
@@ -131,7 +130,7 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT latitude, longitude FROM watch_gps WHERE watch_id = %s;"
+            sql = "SELECT * FROM watch_gps WHERE watch_id = %s;"
             cusor.execute(sql, watch_id)
             rows = cusor.fetchone()
             latitude_result = rows['latitude']
@@ -155,11 +154,9 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "update watch_gps set latitude= %s WHERE watch_id = %s;"
-            cusor.execute(sql, (latitude, watch_id))
-            sql = "update watch_gps set longitude= %s WHERE watch_id = %s;"
-            cusor.execute(sql, (longitude, watch_id))
-            sql = "update watch_gps set time = "
+            #gps는 지속적인 기록이 필요하기때문에 insert를 사용한다(update를 사용하게되면 지속적인 기록이 아니라 기존 기록이 갱신되기만 함)
+            sql = "INSERT INTO watch_gps(watch_id, latitude, longitude, time) values(%s, %s, %s, now())"
+            cusor.execute(sql, (watch_id, latitude, longitude))
             cusor.close()
             db.commit()
             db.close()
@@ -174,6 +171,7 @@ class CheckWear(Resource):
     def post(self):
         args = parser.parse_args()
         wear = args['wear']
+        
 
 
 api.add_resource(SetWatchID, '/set_watch_id')
