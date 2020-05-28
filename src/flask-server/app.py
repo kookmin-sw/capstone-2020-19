@@ -18,13 +18,15 @@ parser.add_argument('latitude', type = str) #위도
 parser.add_argument('longitude', type = str)#경도
 parser.add_argument('datetime', type = str)#시간정보
 parser.add_argument('wear', type = str) #스마트워치 착용여부
+parser.add_argument('name', type = str) #스마트워치 사용자 이름
+parser.add_argument('phone_number', type=str) #휴대폰 번호
 
 #set database
 DB = 'silver_watch'
 USER = 'root'
 HOST = 'localhost'
-PASSWORD = 'capstone19'
-#PASSWORD = '1234qwer'
+#PASSWORD = 'capstone19'
+PASSWORD = '1234qwer'
 
 #db table structure
 #watch_user:
@@ -78,11 +80,13 @@ class SetWatchID(Resource):
     def post(self):
         args = parser.parse_args()
         watch_id = args['watch_id']
+        name = args['name']
+        phone_number = args['phone_number']
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "INSERT INTO watch_user(watch_id) VALUES(%s)" 
-            cusor.execute(sql, (watch_id))
+            sql = "INSERT INTO watch_user(watch_id, name, phone_number) VALUES(%s, %s, %s)" 
+            cusor.execute(sql, (watch_id, name, phone_number))
             sql = "insert into watch_battery(watch_id) values(%s)"
             cusor.execute(sql, (watch_id))
             sql = "insert into watch_wear(watch_id) values(%s)"
@@ -191,6 +195,26 @@ class Gps(Resource):
             return {"status" : 0}
 
 class CheckWear(Resource):
+    def get(self):
+        args = parser.parse_args()
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try:
+            sql = "SELECT * from watch_wear where watch_id = %s"
+            cusor.execute(sql, (watch_id))
+            rows = cusor.fetchone()
+            wear_result = rows['wear']
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "wear" : wear_result}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
+
     def post(self):
         args = parser.parse_args()
         wear = args['wear']
