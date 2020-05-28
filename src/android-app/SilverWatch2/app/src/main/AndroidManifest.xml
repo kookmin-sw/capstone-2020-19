@@ -3,6 +3,7 @@
     package="capstone.kookmin.silverwatch">
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"

@@ -6,14 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-// import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,11 +32,20 @@ import java.net.*;
 import java.io.*;
 import android.app.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.net.ssl.HttpsURLConnection;
+
 public class registerMenu extends AppCompatActivity {
+    static RequestQueue requestQueue;
     private IntentIntegrator qrScan;
     private String watch_id;
+    String myResult;
     EditText nameText;
     EditText phoneText;
+    TextView watch_idText;
+    TextView responseView;
     Handler handler = new Handler();
 
     @Override
@@ -36,6 +55,8 @@ public class registerMenu extends AppCompatActivity {
 
         nameText = findViewById(R.id.nameText);
         phoneText = findViewById(R.id.phoneText);
+        watch_idText = findViewById(R.id.watch_idText);
+        responseView = findViewById(R.id.responseView);
 
         qrScan = new IntentIntegrator(this);
 
@@ -63,14 +84,42 @@ public class registerMenu extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        request("https://2ouujsem46.execute-api.ap-northeast-2.amazonaws.com/demo/user");
-                    }
-                }).start();
+                makeRequest();
             }
         });
+    }
+
+    public void makeRequest() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        String url = "http://203.246.112.155:5000/set_watch_id";
+        JSONObject object = new JSONObject();
+        try {
+            object.put("watch_id", watch_idText.getText().toString());
+            object.put("name", nameText.getText().toString());
+            object.put("phone_number", phoneText.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+                object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    VolleyLog.v("Response:%n %s", response.toString(4));
+                    responseView.setText("등록 성공" + response.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 
     @Override
@@ -81,48 +130,17 @@ public class registerMenu extends AppCompatActivity {
                 Toast.makeText(this, "취소됨", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "스캔 완료", Toast.LENGTH_LONG).show();
-                watch_id = result.toString();
+                try {
+                    //data를 json으로 변환
+                    JSONObject obj = new JSONObject(result.getContents());
+                    watch_idText.setText(obj.getString("watch_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    watch_idText.setText(result.getContents().toString());
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    public void request(String urladdress) {
-        try {
-            URL url = new URL("https://2ouujsem46.execute-api.ap-northeast-2.amazonaws.com/demo/user");
-            HttpURLConnection httpURLCon = (HttpURLConnection)url.openConnection();
-
-            httpURLCon.setDefaultUseCaches(false);
-            httpURLCon.setDoInput(true);
-            httpURLCon.setDoOutput(true);
-            httpURLCon.setRequestMethod("POST");
-            httpURLCon.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-
-            StringBuffer sb = new StringBuffer();
-            sb.append("watch_id").append("=").append(watch_id.toString()).append("&");
-            sb.append("name").append("=").append(nameText.getText().toString()).append("&");
-            sb.append("phone_number").append("=").append(phoneText.getText().toString()).append("&");
-
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(httpURLCon.getOutputStream(), "EUC-KR"));
-            pw.write(sb.toString());
-            pw.flush();
-
-            BufferedReader bf = new BufferedReader(new InputStreamReader(httpURLCon.getInputStream(), "EUC-KR"));
-            StringBuilder buff = new StringBuilder();
-            String line;
-
-            while(true) {
-                line = bf.readLine();
-                if(line == null) {
-                    break;
-                }
-                buff.append(line + "\n");
-            }
-            bf.close();
-            httpURLCon.disconnect();
-        } catch (Exception ex) {
-            System.out.println("예외 발생함: " + ex.toString());
         }
     }
 }

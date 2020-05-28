@@ -43,6 +43,13 @@
             android:hint="전화번호(000-0000-0000)"
             android:inputType="textPersonName" />
 
+        <TextView
+            android:id="@+id/watch_idText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="워치 아이디     "
+            android:textSize="18sp" />
+
         <Button
             android:id="@+id/scanQRbutton"
             android:layout_width="wrap_content"
@@ -55,6 +62,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="새로운 사용자 등록하기" />
+
+        <TextView
+            android:id="@+id/responseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="30sp" />
+
     </LinearLayout>
 
     <Button
