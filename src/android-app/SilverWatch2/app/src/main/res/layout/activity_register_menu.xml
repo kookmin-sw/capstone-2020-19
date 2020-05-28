@@ -17,26 +17,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="1"
         android:text="워치 등록 메뉴"
-        android:textSize="30" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        android:orientation="vertical">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-    </LinearLayout>
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,15 +27,34 @@
         android:layout_weight="5"
         android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="이름     "
+            android:inputType="textPersonName" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+        <EditText
+            android:id="@+id/phoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="전화번호(000-0000-0000)"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/scanQRbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QR 코드 스캔 (워치 아이디 가져오기)" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="새로운 사용자 등록하기" />
     </LinearLayout>
 
     <Button
