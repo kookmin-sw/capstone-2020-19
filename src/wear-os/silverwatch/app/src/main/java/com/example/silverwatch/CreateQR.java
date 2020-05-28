@@ -1,6 +1,7 @@
 package com.example.silverwatch;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,7 @@ public class CreateQR extends AppCompatActivity {
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try{
+            SQLiteDatabase registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
             BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,200,200);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -37,25 +39,17 @@ public class CreateQR extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run(){
-
-                    Date start = new Date();
-                    while(true){
-                        Date end = new Date();
-                        if ((end.getTime() - start.getTime()) / 1000 > 1) break;
+                    boolean registerResult = false;
+                    while(!registerResult){
+                        // TODO: GET REGISTRATION RESULT
+                        registerResult = true;
                     }
-                    Log.d("time", "start");
-                    start = new Date();
-                    while(true){
-                        Date end = new Date();
-                        if ((end.getTime() - start.getTime()) / 1000 > 2) break;
-                    }
+                    registerDB.execSQL("INSERT INTO result VALUES (1)");
 
-                    Log.d("time", "end");
                     Intent mainIntent = new Intent(CreateQR.this, registerFinished.class);
-                    Log.d("Intent", "start finished activity");
                     startActivity(mainIntent);
                 }
-            }, 500);
+            }, 0);
 
         }catch (Exception e){}
     }

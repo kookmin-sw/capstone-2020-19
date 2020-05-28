@@ -1,3 +1,4 @@
 <resources>
     <string name="hello_world">Hello Round World!</string>
+    <string name="reg_finished">등록 완료!</string>
 </resources>
