@@ -38,7 +38,7 @@ public class MainActivity extends WearableActivity {
     List<Sensor> sensors;
     Deque<String> sensorData = new ArrayDeque<>();
     boolean isWalk = true;
-    final int SENSOR_NUMBER = 40;
+    final int SENSOR_NUMBER = 0;
 
     private TextView textView;
     private TextView fallResultText;

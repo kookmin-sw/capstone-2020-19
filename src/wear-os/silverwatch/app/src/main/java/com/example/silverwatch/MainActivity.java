@@ -45,8 +45,8 @@ public class MainActivity extends WearableActivity {
         SQLiteDatabase idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
         SQLiteDatabase registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
 
-//        idDB.execSQL("DROP TABLE IF EXISTS " + tableName);
-//        registerDB.execSQL("DROP TABLE IF EXISTS result");
+        idDB.execSQL("DROP TABLE IF EXISTS " + tableName);
+        registerDB.execSQL("DROP TABLE IF EXISTS result");
 
         idDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + " (uuid text);");
         registerDB.execSQL("CREATE TABLE IF NOT EXISTS result (register integer)");

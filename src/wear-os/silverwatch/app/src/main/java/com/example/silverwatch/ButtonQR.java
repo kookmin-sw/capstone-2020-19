@@ -3,16 +3,15 @@ package com.example.silverwatch;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.UUID;
 
-public class ButtonQR extends AppCompatActivity {
+public class ButtonQR extends WearableActivity {
     private Button createQRBtn;
 
     @Override
