@@ -22,10 +22,12 @@ public class MainActivity extends WearableActivity {
         // Enables Always-on
         setAmbientEnabled();
         SQLiteDatabase idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
-//        idDB.execSQL("DROP TABLE IF EXISTS " + tableName);
-        idDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + " (uuid text);");
-
         SQLiteDatabase registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
+
+//        idDB.execSQL("DROP TABLE IF EXISTS " + tableName);
+//        registerDB.execSQL("DROP TABLE IF EXISTS result");
+
+        idDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + " (uuid text);");
         registerDB.execSQL("CREATE TABLE IF NOT EXISTS result (register integer)");
 
         Cursor c = idDB.rawQuery("SELECT * FROM " + tableName, null);
@@ -45,11 +47,17 @@ public class MainActivity extends WearableActivity {
             c.moveToFirst();
             Cursor registerCursor = registerDB.rawQuery("SELECT * FROM result", null);
             int registerRowCount = registerCursor.getCount();
-            if (registerRowCount == 0){
+            if (registerRowCount == 0) {
                 String uuid = c.getString(c.getColumnIndex("uuid"));
                 Intent intent = new Intent(MainActivity.this, CreateQR.class);
 
                 intent.putExtra("id", uuid);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(MainActivity.this, registerFinished.class);
+                Log.d("Intent", "Reg Completed");
+
                 startActivity(intent);
                 finish();
             }
