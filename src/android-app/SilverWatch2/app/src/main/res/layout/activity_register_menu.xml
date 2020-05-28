@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".registerMenu">
+
+    // 워치 사용자의 정보를 표시한 text 박스 설정 1
+
+    // 워치 사용자의 정보를 표시한 text 박스 설정 2
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="워치 등록 메뉴"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="이름     "
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/phoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="전화번호(000-0000-0000)"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/watch_idText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="워치 아이디     "
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/scanQRbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QR 코드 스캔 (워치 아이디 가져오기)" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="새로운 사용자 등록하기" />
+
+        <TextView
+            android:id="@+id/responseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="메인 메뉴로 돌아가기" />
+
+    // 워치 사용자의 정보를 표시한 text 박스 설정 3
+
+    // 메뉴 제목
+
+    // 눌렀을 시에 메인 메뉴로 돌아가게끔 하는 버튼 추가
+
+</LinearLayout>

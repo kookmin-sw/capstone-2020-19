@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "785456451370",
+    "firebase_url": "https://fcm-example-193a8.firebaseio.com",
+    "project_id": "fcm-example-193a8",
+    "storage_bucket": "fcm-example-193a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785456451370:android:3144b08deec34399e61853",
+        "android_client_info": {
+          "package_name": "silverwatch.capstone.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785456451370-ql34eif4r6rdpoc2v8o4sf1ev40oj63q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "silverwatch.capstone.fcm",
+            "certificate_hash": "57b0313a146ded312a8c996624118ff038321d51"
+          }
+        },
+        {
+          "client_id": "785456451370-j6u3flli6tm5kub73ouvsk5qtluhbnt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMuRRxD3rQMLLKUHUUcztN_fDWRnyuSpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785456451370-j6u3flli6tm5kub73ouvsk5qtluhbnt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
