@@ -60,12 +60,12 @@ An all-around care system for elderly that allows guardians to take care of thei
 [![capstone](https://img.youtube.com/vi/cD-MY3LP3dE/maxresdefault.jpg)](https://youtu.be/cD-MY3LP3dE)
 
 ---
-
-[![capstone](https://img.youtube.com/vi/yTXSiW4pdvU/maxresdefault.jpg)](https://youtu.be/yTXSiW4pdvU)
+#### 1차 중간자문평가 발표 영상
+[![capstone_1](https://img.youtube.com/vi/yTXSiW4pdvU/0.jpg)](https://youtu.be/yTXSiW4pdvU)
 
 ---
-
-[![capstone](https://img.youtube.com/vi/UqDWcDFYyMo/maxresdefault.jpg)](https://youtu.be/UqDWcDFYyMo)
+#### 2차 중간자문평가 발표 영상
+[![capstone_2](https://img.youtube.com/vi/UqDWcDFYyMo/0.jpg)](https://youtu.be/UqDWcDFYyMo)
 
 ### 4. 팀 소개
 
