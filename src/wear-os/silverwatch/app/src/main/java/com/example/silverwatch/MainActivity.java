@@ -13,14 +13,35 @@ import android.widget.TextView;
 import java.util.UUID;
 
 public class MainActivity extends WearableActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final String tableName = "id";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Enables Always-on
         setAmbientEnabled();
+        start();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+    }
+
+    public void start(){
+        final String tableName = "id";
         SQLiteDatabase idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
         SQLiteDatabase registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
 

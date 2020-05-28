@@ -16,7 +16,6 @@
         app:boxedEdges="all">
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/reg_finished" />
