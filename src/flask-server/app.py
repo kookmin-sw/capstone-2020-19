@@ -23,7 +23,30 @@ parser.add_argument('wear', type = str) #스마트워치 착용여부
 DB = 'silver_watch'
 USER = 'root'
 HOST = 'localhost'
-PASSWORD = '1234qwer'
+PASSWORD = 'capstone19'
+#PASSWORD = '1234qwer'
+
+#db table structure
+#watch_user:
+#   watch_id: varchar(100) notNull Unique
+#   name: varchar(45)
+#   phone_number(45)
+#watch_gps:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   latitude: varchar(45) 
+#   longitude: varchar(45)
+#   time: datetime
+#watch_battery:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   battery: varchar(45)
+#   time: datetime
+#watch_wear:
+#   id: int(11) notNull autoincrease
+#   watch_id: varchar(100) notNull foreignkey
+#   wear: bool
+#   time: datetime
 
 #db에 watch_id가 존재하는지 확인
 #저장할때 4개의 테이블에 다 저장되니까, parent table인 watch_user에서만 확인해도 된다
@@ -171,7 +194,21 @@ class CheckWear(Resource):
     def post(self):
         args = parser.parse_args()
         wear = args['wear']
-        
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try:
+            sql = "UPDATE watch_wear set wear=%s, time=now() where watch_id=%s"
+            cusor.execute(sql, (wear, watch_id))
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
 
 
 api.add_resource(SetWatchID, '/set_watch_id')
