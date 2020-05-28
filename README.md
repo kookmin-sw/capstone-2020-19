@@ -59,7 +59,13 @@ An all-around care system for elderly that allows guardians to take care of thei
 
 [![capstone](https://img.youtube.com/vi/cD-MY3LP3dE/maxresdefault.jpg)](https://youtu.be/cD-MY3LP3dE)
 
+---
 
+[![capstone](https://img.youtube.com/vi/yTXSiW4pdvU/maxresdefault.jpg)](https://youtu.be/yTXSiW4pdvU)
+
+---
+
+[![capstone](https://img.youtube.com/vi/UqDWcDFYyMo/maxresdefault.jpg)](https://youtu.be/UqDWcDFYyMo)
 
 ### 4. 팀 소개
 
