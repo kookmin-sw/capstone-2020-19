@@ -39,16 +39,14 @@ public class CreateQR extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run(){
-                    Log.d("time", "start");
                     boolean registerResult = false;
                     while(!registerResult){
+                        // TODO: GET REGISTRATION RESULT
                         registerResult = true;
                     }
                     registerDB.execSQL("INSERT INTO result VALUES (1)");
 
-                    Log.d("time", "end");
                     Intent mainIntent = new Intent(CreateQR.this, registerFinished.class);
-                    Log.d("Intent", "start finished activity");
                     startActivity(mainIntent);
                 }
             }, 0);
