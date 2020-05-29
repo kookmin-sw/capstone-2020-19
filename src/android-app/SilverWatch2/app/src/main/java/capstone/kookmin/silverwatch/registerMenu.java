@@ -108,7 +108,7 @@ public class registerMenu extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     VolleyLog.v("Response:%n %s", response.toString(4));
-                    responseView.setText("등록 성공" + response.toString());
+                    responseView.setText("등록 성공");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

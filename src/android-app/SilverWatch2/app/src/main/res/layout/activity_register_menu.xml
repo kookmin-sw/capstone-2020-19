@@ -67,7 +67,7 @@
             android:id="@+id/responseView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="등록 상태"
             android:textSize="30sp" />
 
     </LinearLayout>
