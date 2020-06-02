@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "636910611274",
+    "firebase_url": "https://silverwatch-808dd.firebaseio.com",
+    "project_id": "silverwatch-808dd",
+    "storage_bucket": "silverwatch-808dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636910611274:android:8887e653cb4a8d2be6afb3",
+        "android_client_info": {
+          "package_name": "capstone.kookmin.silverwatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636910611274-gubtvj19i2ee451l88i5sar3bs7bbau8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "capstone.kookmin.silverwatch",
+            "certificate_hash": "57b0313a146ded312a8c996624118ff038321d51"
+          }
+        },
+        {
+          "client_id": "636910611274-sg031vf0avv2j7eal6acp8tffn1cf30f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsVL0bBK0rbgfuNl-ujx6PkxjHtWq-YY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636910611274-sg031vf0avv2j7eal6acp8tffn1cf30f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
