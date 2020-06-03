@@ -264,7 +264,7 @@ api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/status')
 api.add_resource(CheckID, '/check_watch_id')
 api.add_resource(CheckWear, '/wear')
-api.add_resource(GetInfomation, 'get_information')
+api.add_resource(GetInfomation, '/get_information')
 
 if __name__ == '__main__':
     app.run(debug=True)
