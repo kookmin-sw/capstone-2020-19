@@ -68,9 +68,32 @@ class CheckID(Resource):
             if res:
                 #기능이 수행되고, 디비에 watch_id가 존재할때
                 return {"status": 1, "register_result": 1}
+            else:
+                #기능이 수행되고, 디비에 watch_id가 없을 때
+                return {"status" : 1, "reguster_result" : 0}
         except Exception:
             #기능이 제대로 수행하지 않을때
             return {"status": 0, "register_result": 0}
+
+class GetInfomation(Resource):
+    def get(self):
+        args = parser.parse_args()
+        watch_id = args['watch_id']
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try:
+            sql = "SELECT * FROM watch_user WHERE watch_id = %s;"
+            cusor.execute(sql, (watch_id))
+            rows = cusor.fetchone()
+            name_result = rows['name']
+            phone_number_result = rows['phone_number']
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "name" : name_result, "phone_number" : phone_number_result}
+        except Exception:
+            return {"status":0}
+
 
 #db에 watch id가 있는지 확인하고, 없으면 db에 저장
 #db에 존재하면 return false
@@ -241,6 +264,7 @@ api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/status')
 api.add_resource(CheckID, '/check_watch_id')
 api.add_resource(CheckWear, '/wear')
+api.add_resource(GetInfomation, 'get_information')
 
 if __name__ == '__main__':
     app.run(debug=True)
