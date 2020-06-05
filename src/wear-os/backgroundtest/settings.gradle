@@ -1,0 +1,2 @@
+rootProject.name='backgroundtest'
+include ':app'
