@@ -257,6 +257,24 @@ class CheckWear(Resource):
             db.close()
             return {"status" : 0}
 
+def send_fcm_notification(ids, title, body):
+    url = 'https://fcm.googleapis.com/fcm/send'
+
+    headers = {
+        'Authorization' : 'key=<AAAAlErUq0o:APA91bFRvgzk2pc_QIXklpZUrAE52jYstBl7WuVb7ykv388RBUwfkDZEowJimgM5dj0uuxRdPySOmKNTCEthpLR6cVqTKGB05GLGFR8xFAStLDBaG4tKrjjpZdNWCdeKrUWZNlYMGX2n>'
+        'Content-type' : 'application/json; UTF-8'
+    }
+
+    content = {
+        'registeration_ids' : ids,
+        'notification' : {
+            'title' : title,
+            'body' : body
+        }
+    }
+
+    requests.post(url, data=json.dumps(content), headers=headers)
+
 
 api.add_resource(SetWatchID, '/set_watch_id')
 api.add_resource(Battery, '/battery')
