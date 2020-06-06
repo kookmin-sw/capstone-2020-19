@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/layout_activity_register_finished.xml.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/layout/activity_register_finished.xml"
+    },
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    }
+]

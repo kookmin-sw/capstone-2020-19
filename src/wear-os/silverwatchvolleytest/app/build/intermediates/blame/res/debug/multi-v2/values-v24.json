@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatchvolleytest/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
+            "map": [
+                {
+                    "source": "/Users/ghyeon/.gradle/caches/transforms-2/files-2.1/c65c14a2cbfe75266459643a1679c2da/media-1.0.0/res/values-v24/values-v24.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,121,182,248",
+                        "endColumns": "65,60,65,66",
+                        "endOffsets": "116,177,243,310"
+                    }
+                },
+                {
+                    "source": "/Users/ghyeon/.gradle/caches/transforms-2/files-2.1/4c38bf2f4ca935b4210f3a9b0daceebd/wear-1.0.0/res/values-v24/values-v24.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "14",
+                        "endColumns": "12",
+                        "endOffsets": "929"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "315",
+                        "endLines": "18",
+                        "endColumns": "12",
+                        "endOffsets": "1189"
+                    }
+                }
+            ]
+        }
+    ]
+}

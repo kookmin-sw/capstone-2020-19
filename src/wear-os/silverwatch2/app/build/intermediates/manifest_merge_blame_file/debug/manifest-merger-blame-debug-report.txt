@@ -1,0 +1,101 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.silverwatch"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.WAKE_LOCK" />
+11-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:5:5-68
+11-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:5:22-65
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:6:5-67
+12-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:6:22-64
+13
+14    <uses-feature android:name="android.hardware.type.watch" />
+14-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:7:5-64
+14-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:7:19-61
+15
+16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+16-->[androidmads.library.qrgenearator:QRGenearator:1.0.3] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/c0eb902a03056ed85174785df69ca400/jetified-QRGenearator-1.0.3/AndroidManifest.xml:11:5-81
+16-->[androidmads.library.qrgenearator:QRGenearator:1.0.3] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/c0eb902a03056ed85174785df69ca400/jetified-QRGenearator-1.0.3/AndroidManifest.xml:11:22-78
+17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+18
+19    <application
+19-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:9:5-38:19
+20        android:allowBackup="true"
+20-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:10:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.1.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/da95e0dd41fd0c634661df2a0f122634/core-1.1.0/AndroidManifest.xml:24:18-86
+22        android:debuggable="true"
+23        android:extractNativeLibs="false"
+24        android:icon="@mipmap/ic_launcher"
+24-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:11:9-43
+25        android:label="@string/app_name"
+25-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:12:9-41
+26        android:supportsRtl="true"
+26-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:13:9-35
+27        android:testOnly="true"
+28        android:theme="@android:style/Theme.DeviceDefault" >
+28-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:14:9-59
+29        <uses-library
+29-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:15:9-17:39
+30            android:name="com.google.android.wearable"
+30-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:16:13-55
+31            android:required="true" />
+31-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:17:13-36
+32
+33        <!--
+34               Set to true if your app is Standalone, that is, it does not require the handheld
+35               app to run.
+36        -->
+37        <meta-data
+37-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:23:9-25:36
+38            android:name="com.google.android.wearable.standalone"
+38-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:24:13-66
+39            android:value="true" />
+39-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:25:13-33
+40
+41        <activity
+41-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:27:9-35:20
+42            android:name="com.example.silverwatch.MainActivity"
+42-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:28:13-41
+43            android:label="@string/app_name" >
+43-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:29:13-45
+44            <intent-filter>
+44-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:30:13-34:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:31:17-69
+45-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:31:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:33:17-77
+47-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:33:27-74
+48            </intent-filter>
+49        </activity>
+50        <activity android:name="com.example.silverwatch.registerFinished" />
+50-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:36:9-54
+50-->/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatch2/app/src/main/AndroidManifest.xml:36:19-51
+51        <activity
+51-->[com.google.android.gms:play-services-base:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/e2c213d4dfcecf7d0961805c3c2450f7/jetified-play-services-base-17.0.0/AndroidManifest.xml:23:9-26:75
+52            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+52-->[com.google.android.gms:play-services-base:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/e2c213d4dfcecf7d0961805c3c2450f7/jetified-play-services-base-17.0.0/AndroidManifest.xml:24:13-79
+53            android:exported="false"
+53-->[com.google.android.gms:play-services-base:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/e2c213d4dfcecf7d0961805c3c2450f7/jetified-play-services-base-17.0.0/AndroidManifest.xml:25:13-37
+54            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+54-->[com.google.android.gms:play-services-base:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/e2c213d4dfcecf7d0961805c3c2450f7/jetified-play-services-base-17.0.0/AndroidManifest.xml:26:13-72
+55
+56        <meta-data
+56-->[com.google.android.gms:play-services-basement:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/752a983649401b2c06f8f162da3a35f7/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+57            android:name="com.google.android.gms.version"
+57-->[com.google.android.gms:play-services-basement:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/752a983649401b2c06f8f162da3a35f7/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+58            android:value="@integer/google_play_services_version" />
+58-->[com.google.android.gms:play-services-basement:17.0.0] /Users/ghyeon/.gradle/caches/transforms-2/files-2.1/752a983649401b2c06f8f162da3a35f7/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+59    </application>
+60
+61</manifest>

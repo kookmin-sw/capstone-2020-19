@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatchvolleytest/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-round-v23/values-round-v23.xml",
+            "map": [
+                {
+                    "source": "/Users/ghyeon/.gradle/caches/transforms-2/files-2.1/3136d2e9a522e4a18093ba3e920e5f4e/jetified-wearable-2.7.0/res/values-round-v23/values.xml",
+                    "from": {
+                        "startLines": "4,5,8,9,10,11,12,13,14,15,16",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "213,269,472,531,608,689,733,804,877,948,1030",
+                        "endColumns": "55,56,58,76,80,43,70,72,70,81,75",
+                        "endOffsets": "268,325,530,607,688,732,803,876,947,1029,1105"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,115,176,239,320,405,453,528,605,680,766",
+                        "endColumns": "59,60,62,80,84,47,74,76,74,85,79",
+                        "endOffsets": "110,171,234,315,400,448,523,600,675,761,841"
+                    }
+                },
+                {
+                    "source": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatchvolleytest/app/src/main/res/values-round/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "58",
+                        "endOffsets": "70"
+                    },
+                    "to": {
+                        "startLines": "13",
+                        "startColumns": "4",
+                        "startOffsets": "846",
+                        "endColumns": "58",
+                        "endOffsets": "900"
+                    }
+                }
+            ]
+        }
+    ]
+}

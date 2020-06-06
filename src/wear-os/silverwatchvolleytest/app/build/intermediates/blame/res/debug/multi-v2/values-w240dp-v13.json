@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/ghyeon/Workspace/2020-1/capstone-2020-19/src/wear-os/silverwatchvolleytest/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w240dp-v13/values-w240dp-v13.xml",
+            "map": [
+                {
+                    "source": "/Users/ghyeon/.gradle/caches/transforms-2/files-2.1/3136d2e9a522e4a18093ba3e920e5f4e/jetified-wearable-2.7.0/res/values-w240dp-v13/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7",
+                        "startColumns": "0,0,0,0",
+                        "startOffsets": "222,270,318,368",
+                        "endColumns": "47,47,49,47",
+                        "endOffsets": "269,317,367,415"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,107,159,213",
+                        "endColumns": "51,51,53,51",
+                        "endOffsets": "102,154,208,260"
+                    }
+                }
+            ]
+        }
+    ]
+}
