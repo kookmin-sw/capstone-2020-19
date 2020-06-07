@@ -1,15 +1,17 @@
 import sys
+from os.path import abspath, dirname
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
 from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import pymysql
 import json
 from datetime import datetime as dt
-from resources.battery import Battery
-from resources.gps import Gps
-from resources.status import Status
-from resources.user import User
-from resources.wear import Wear
+from silverwatch_api.resources.battery import Battery
+from silverwatch_api.resources.gps import Gps
+from silverwatch_api.resources.status import Status
+from silverwatch_api.resources.user import User
+from silverwatch_api.resources.wear import Wear
 
 app = Flask(__name__)
 api = Api(app)
