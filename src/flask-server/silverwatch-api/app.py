@@ -7,7 +7,6 @@ import json
 from datetime import datetime as dt
 from resources.battery import Battery
 from resources.gps import Gps
-from resources.information import Information
 from resources.status import Status
 from resources.user import User
 from resources.wear import Wear
@@ -51,7 +50,6 @@ api.add_resource(Battery, '/battery')
 api.add_resource(Gps, '/gps')
 api.add_resource(Status, '/')
 api.add_resource(Wear, '/wear')
-api.add_resource(Information, '/information')
 
 if __name__ == '__main__':
     app.run(debug=True)
