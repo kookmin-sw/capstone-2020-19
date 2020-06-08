@@ -24,12 +24,15 @@
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start_register" />
+                android:text="@string/start_register"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/scan_want"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -45,6 +48,7 @@
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="moveToQRCode"
                 android:text="@string/next" />
         </LinearLayout>
 

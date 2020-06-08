@@ -25,8 +25,9 @@ public class IntroActivity extends WearableActivity {
         public void handleMessage(Message msg){
             if (msg.what == 1){
                 // TODO: 현재 등록된 정보 가져와서 등록 액티비티로 넘길지 등록 완료 액티비티로 넘길
-                Intent intent = new Intent(IntroActivity.this, registerFinished.class);
+                Intent intent = new Intent(IntroActivity.this, startRegister.class);
                 startActivity(intent);
+                finish();
             }
         }
     };
