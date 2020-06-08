@@ -9,6 +9,7 @@ import json
 from datetime import datetime as dt
 from silverwatch_api.resources.battery import Battery
 from silverwatch_api.resources.gps import Gps
+from silverwatch_api.resources.push import Push
 from silverwatch_api.resources.status import Status
 from silverwatch_api.resources.user import User
 from silverwatch_api.resources.wear import Wear
@@ -50,6 +51,7 @@ PASSWORD = 'capstone19'
 api.add_resource(User, '/user')
 api.add_resource(Battery, '/battery')
 api.add_resource(Gps, '/gps')
+api.add_resource(Push, '/push')
 api.add_resource(Status, '/')
 api.add_resource(Wear, '/wear')
 
