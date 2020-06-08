@@ -64,6 +64,7 @@ public class qrGeneration extends WearableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_generation);
+        setAmbientEnabled();
 
         initialization();
 
