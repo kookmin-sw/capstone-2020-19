@@ -61,7 +61,7 @@ class BatteryAll(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT * FROM battery;"
+            sql = "SELECT * FROM watch_battery;"
             cusor.execute(sql)
             rows = cusor.fetchall()
             print(rows)
