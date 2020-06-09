@@ -7,12 +7,12 @@ from flask_cors import CORS
 import pymysql
 import json
 from datetime import datetime as dt
-from silverwatch_api.resources.battery import Battery
-from silverwatch_api.resources.gps import Gps
+from silverwatch_api.resources.battery import Battery, BatteryAll
+from silverwatch_api.resources.gps import Gps, GpsAll
 from silverwatch_api.resources.push import Push
 from silverwatch_api.resources.status import Status
-from silverwatch_api.resources.user import User
-from silverwatch_api.resources.wear import Wear
+from silverwatch_api.resources.user import User, UserAll
+from silverwatch_api.resources.wear import Wear, WearAll
 
 app = Flask(__name__)
 api = Api(app)
@@ -49,11 +49,15 @@ PASSWORD = 'capstone19'
 
 
 api.add_resource(User, '/user')
+api.add_resource(UserAll, '/user_all')
 api.add_resource(Battery, '/battery')
+api.add_resource(BatteryAll, '/battery_all')
 api.add_resource(Gps, '/gps')
+api.add_resource(GpsAll, '/gps_all')
 api.add_resource(Push, '/push')
 api.add_resource(Status, '/')
 api.add_resource(Wear, '/wear')
+api.add_resource(WearAll, '/wear_all')
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

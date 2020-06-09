@@ -54,3 +54,24 @@ class Battery(Resource):
             db.commit()
             db.close()
             return {"status" : 0}
+
+
+class BatteryAll(Resource):
+    def get(self):
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try: 
+            sql = "SELECT * FROM battery;"
+            cusor.execute(sql)
+            rows = cusor.fetchall()
+            print(rows)
+            #print(result)
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "result": rows}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
