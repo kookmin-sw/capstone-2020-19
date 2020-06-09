@@ -23,7 +23,7 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT * FROM watch_gps WHERE watch_id = %s;"
+            sql = "SELECT * FROM watch_gps WHERE watch_id = %s ORDER BY time DESC;"
             cusor.execute(sql, watch_id)
             rows = cusor.fetchone()
             latitude_result = rows['latitude']
