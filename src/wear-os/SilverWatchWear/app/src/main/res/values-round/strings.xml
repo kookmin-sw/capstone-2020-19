@@ -2,6 +2,6 @@
     <string name="hello_world">Hello Round World!</string>
     <string name="start_register">등록 과정을 시작합니다.</string>
     <string name="next">다음</string>
-    <string name="finished">등록 완료!\n관리자 앱을 참조하세요.</string>
+    <string name="finished">등록 완료!\nSilverWatch 동작중...</string>
     <string name="scan_want">다음 화면의 QR코드를 \n스캔해주세요.</string>
 </resources>

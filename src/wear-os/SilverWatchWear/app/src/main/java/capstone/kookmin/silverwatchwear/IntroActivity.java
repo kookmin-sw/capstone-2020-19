@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 
@@ -23,10 +28,24 @@ public class IntroActivity extends WearableActivity {
         registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
 //        registerDB.execSQL("DROP TABLE IF EXISTS result");
         registerDB.execSQL("CREATE TABLE IF NOT EXISTS result (register integer)");
+        if(!isIgnoringBatteryOptimizations(this)) {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+        }
 
         IntroThread introThread = new IntroThread(handler);
         introThread.start();
 
+
+    }
+    static boolean isIgnoringBatteryOptimizations(Context context) {
+        PowerManager powerManager =
+                (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+        }
+        return true;
     }
 
     @SuppressLint("HandlerLeak")

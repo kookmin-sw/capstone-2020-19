@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
@@ -13,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault"
         android:usesCleartextTraffic="true">
-        <activity android:name=".qrGeneration"></activity>
+        <service
+            android:name=".BatterySendService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false"></service>
+
+        <activity android:name=".qrGeneration" />
         <activity android:name=".registerFinished" />
         <activity android:name=".startRegister" />
         <activity
