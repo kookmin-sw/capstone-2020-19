@@ -20,11 +20,13 @@ import android.util.Log;
 
 public class IntroActivity extends WearableActivity {
     SQLiteDatabase registerDB;
+    SQLiteDatabase idDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         setAmbientEnabled();
+        idDB = this.openOrCreateDatabase("ID", MODE_PRIVATE, null);
         registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
 //        registerDB.execSQL("DROP TABLE IF EXISTS result");
         registerDB.execSQL("CREATE TABLE IF NOT EXISTS result (register integer)");
@@ -60,7 +62,13 @@ public class IntroActivity extends WearableActivity {
                     startActivity(intent);
                     finish();
                 }else{
+                    final String tableName = "id";
+                    Cursor c = idDB.rawQuery("SELECT * FROM " + tableName, null);
+                    Log.d("cursor", String.valueOf(c.getCount()));
+                    c.moveToFirst();
+                    String uuid = c.getString(c.getColumnIndex("uuid"));
                     Intent intent = new Intent(IntroActivity.this, registerFinished.class);
+                    intent.putExtra("watchID", uuid);
                     Log.d("Intent", "Reg Completed");
                     startActivity(intent);
                 }

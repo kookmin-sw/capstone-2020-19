@@ -1,15 +1,11 @@
 package capstone.kookmin.silverwatchwear;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.wearable.activity.WearableActivity;
@@ -20,18 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.zxing.WriterException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.UUID;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -47,7 +32,7 @@ public class qrGeneration extends WearableActivity {
     SQLiteDatabase registerDB;
 
     boolean registered = false;
-
+    String uuid;
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
@@ -55,6 +40,7 @@ public class qrGeneration extends WearableActivity {
             if (msg.what == 1){
                 registerDB.execSQL("INSERT INTO result VALUES (1)");
                 Intent intent = new Intent(qrGeneration.this, registerFinished.class);
+                intent.putExtra("watchID", uuid);
                 startActivity(intent);
             }
         }
@@ -69,9 +55,12 @@ public class qrGeneration extends WearableActivity {
         initialization();
 
         Intent intent = getIntent();
-        String uuid = intent.getStringExtra("uuid");
+        uuid = intent.getStringExtra("uuid");
+        Log.d("generationuuid", uuid);
         registerDB = this.openOrCreateDatabase("register", MODE_PRIVATE, null);
         generateQRCode(uuid);
+
+
         CheckRegisterThread checkRegisterThread = new CheckRegisterThread(handler, uuid);
         checkRegisterThread.start();
     }

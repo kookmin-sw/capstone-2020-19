@@ -1,12 +1,19 @@
 package capstone.kookmin.silverwatchwear;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -17,23 +24,27 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class BatterySendService extends Service {
-    public BatterySendService() {
+public class SendService extends Service {
+    public SendService() {
+
     }
-
+    String uuid;
     @Override
     public void onCreate() {
         super.onCreate();
+
         createNotificationChannel();
-        Log.d("battery service", "on create");
+        Log.d("service", "on create");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        Log.d("battery service", "on destroy");
+        Log.d("service", "on destroy");
     }
 
     private void createNotificationChannel() {
@@ -49,64 +60,64 @@ public class BatterySendService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        uuid = intent.getStringExtra("watchID");
+        Log.d("sendserviceuuid", uuid);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1");
         builder.setSmallIcon(R.mipmap.ic_launcher);
 
         Notification notification = builder.build();
         startForeground(9, notification);
-        Log.d("battery service", "on start command");
-        request();
+        Log.d("service", "on start command");
         if (intent == null){
             return Service.START_STICKY;
         }else{
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            String command = intent.getStringExtra("command");
-            request();
-            Log.d("batteryservice", "command: " + command);
+            Timer batteryTimer = new Timer();
+            TimerTask batteryTimeTask = new TimerTask() {
+                @Override
+                public void run() {
+                    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+                    Intent batteryStatus = registerReceiver(null, ifilter);
+
+                    int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                    int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+                    float batteryPct = level / (float)scale;
+                    String value = String.valueOf((int)(batteryPct*100));
+                    Log.d("battery", value);
+                    BatterySendThread batterySendThread = new BatterySendThread(batteryHandler, uuid, value);
+                    batterySendThread.start();
+                }
+            };
+            batteryTimer.schedule(batteryTimeTask, 0, 3000); //Timer 실행
+
+            // timer.cancel();//타이머 종료
         }
         return super.onStartCommand(intent, flags, startId);
     }
-    public void request(){
-        StringBuilder output = new StringBuilder();
-        String urlString = "http://203.246.112.155:5000/";
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (conn != null){
-                conn.setConnectTimeout(10000);
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-
-                int resCode = conn.getResponseCode();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line = null;
-                while (true){
-                    line = reader.readLine();
-                    if (line == null){
-                        break;
-                    }
-
-                    output.append(line);
-                }
-                reader.close();
-                conn.disconnect();
-
+    @SuppressLint("HandlerLeak")
+    Handler batteryHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg){
+            if (msg.what == 1){
+                Log.d("battery", "success");
             }
-        }catch (Exception ex){
-            Log.d("ERROR", ex.toString());
         }
-        Log.d("RESPONSE", output.toString());
-    }
+    };
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg){
+            if (msg.what == 1){
+                Log.d("send", "battery success");
+            }
+        }
+    };
 }
