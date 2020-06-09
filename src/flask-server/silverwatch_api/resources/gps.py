@@ -69,6 +69,8 @@ class GpsAll(Resource):
             sql = "SELECT * FROM watch_gps;"
             cusor.execute(sql)
             rows = cusor.fetchall()
+            for i in range(len(rows)):
+                rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
             print(rows)
             #print(result)
             cusor.close()
