@@ -12,6 +12,7 @@ class Push(Resource):
             args = parser.parse_args()
             watch_id = args['watch_id']
             fall_result = args['fall_result']
+            print(watch_id, fall_result)
             return {"status" : 1, "fall_result": fall_result}
         except Exception as e:
             print(e)

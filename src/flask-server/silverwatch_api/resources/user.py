@@ -35,7 +35,7 @@ class User(Resource):
                 return {"status": 1, "register_result": 1}
             else:
                 #기능이 수행되고, 디비에 watch_id가 없을 때
-                return {"status" : 1, "reguster_result" : 0}
+                return {"status" : 1, "register_result" : 0}
         except Exception as e:
             #기능이 제대로 수행하지 않을때
             print(e)
@@ -47,6 +47,7 @@ class User(Resource):
         watch_id = args['watch_id']
         name = args['name']
         phone_number = args['phone_number']
+        print(watch_id, name, phone_number)
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 

@@ -56,4 +56,4 @@ api.add_resource(Status, '/')
 api.add_resource(Wear, '/wear')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
