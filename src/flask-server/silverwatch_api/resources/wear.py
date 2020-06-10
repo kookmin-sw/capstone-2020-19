@@ -64,7 +64,10 @@ class WearAll(Resource):
             cusor.execute(sql)
             rows = cusor.fetchall()
             for i in range(len(rows)):
-                rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
+                try:
+                    rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
+                except:
+                    rows[i]["time"] = "null"
             print(rows)
             #print(result)
             cusor.close()
