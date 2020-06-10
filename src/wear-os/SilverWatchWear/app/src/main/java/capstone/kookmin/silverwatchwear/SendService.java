@@ -36,6 +36,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
@@ -54,6 +56,7 @@ public class SendService extends Service {
     LocationManager lm;
     SensorManager manager;
     List<Sensor> sensors;
+    Deque<String> sensorData = new ArrayDeque<>();
 
     @Override
     public void onCreate() {
@@ -85,7 +88,34 @@ public class SendService extends Service {
         }
     }
 
-    public SensorEventListener mySensorLister = new SensorEventListener() {
+    public SensorEventListener accSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+//            String output = "Sensor Timestamp : " + event.timestamp + "\n\n";
+            String temp = "";
+            for(int index = 0;index < event.values.length;++index){
+                temp +=  event.values[index] + ",";
+            }
+            if (sensorData.size() >= 30){
+                unregisterAccelerometerSensor();
+                String sensorValue = "x,y,z\n";
+                while(!sensorData.isEmpty()){
+                    sensorValue += sensorData.poll();
+                }
+                FallSendThread fallSendThread = new FallSendThread(fallHandler, uuid, sensorValue);
+                fallSendThread.start();
+                registerAccelerometerSensor();
+            }
+            sensorData.add(temp.substring(0, temp.length() - 1) + "\n");
+        }
+
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+    public SensorEventListener offBodySensorListener = new SensorEventListener() {
 
         @SuppressLint("DefaultLocale")
         @Override
@@ -118,9 +148,17 @@ public class SendService extends Service {
             index++;
         }
     }
+
     public void registerOffBodySensor(){
         manager.registerListener(
-                mySensorLister, sensors.get(24), 100000);
+                offBodySensorListener, sensors.get(24), 100000);
+    }
+    public void registerAccelerometerSensor(){
+        manager.registerListener(
+                accSensorListener, sensors.get(40), 100000);
+    }
+    public void unregisterAccelerometerSensor(){
+        manager.unregisterListener(accSensorListener, sensors.get(40));
     }
 
     @Override
@@ -131,6 +169,7 @@ public class SendService extends Service {
         builder.setSmallIcon(R.mipmap.ic_launcher);
         getSensorList();
         registerOffBodySensor();
+        registerAccelerometerSensor();
         Notification notification = builder.build();
         startForeground(9, notification);
         Log.d("service", "on start command");
@@ -199,9 +238,7 @@ public class SendService extends Service {
             };
             gpsTimer.schedule(gpsTimeTask, 0, 20000);
             // timer.cancel();//타이머 종료
-            getSensorList();
-            registerOffBodySensor();
-            // TODO: 낙상
+
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -251,6 +288,17 @@ public class SendService extends Service {
             }
         }
     };
+
+    @SuppressLint("HandlerLeak")
+    Handler fallHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg){
+            if (msg.what == 1){
+                Log.d("fall", "success");
+            }
+        }
+    };
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
