@@ -20,25 +20,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class BatterySendThread extends Thread  {
+public class GpsSendThread extends Thread  {
     Handler handler;
     String watchID;
-    String percentage;
+    String longitude;
+    String latitude;
 
-    public BatterySendThread(Handler handler, String watchID, String percentage){
+    public GpsSendThread(Handler handler, String watchID, String longitude, String latitude){
         this.handler = handler;
         this.watchID = watchID;
-        this.percentage = percentage;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     @Override
     public void run(){
         Message msg = new Message();
         try{
-            String url = "http://203.246.112.155:5000/battery"; 	//URL
+            String url = "http://203.246.112.155:5000/gps"; 	//URL
             HashMap<String, String> param = new HashMap<>();
             param.put("watch_id", this.watchID);
-            param.put("watch_battery", this.percentage);
+            param.put("latitude", this.latitude);
+            param.put("longitude", this.longitude);
             String json = new JSONObject(param).toString();
             String res = sendPost(url, json);
             msg.what = 1;
