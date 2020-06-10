@@ -29,7 +29,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        maven{
+        maven {
             url 'https://navercorp.bintray.com/maps'
         }
     }
@@ -56,4 +56,8 @@ dependencies {
     implementation('com.naver.maps:map-sdk:3.8.0') {
         exclude group: 'com.android.support'
     }
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
+    implementation 'androidx.media:media:1.0.0'
 }

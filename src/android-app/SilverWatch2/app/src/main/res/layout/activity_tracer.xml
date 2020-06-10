@@ -8,15 +8,17 @@
     tools:context=".TracerActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7" />
 
-    <com.naver.maps.map.MapView
-        android:id="@+id/map_view"
+    <fragment
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7" />
+        android:layout_weight="7"
+        class='com.google.android.gms.maps.SupportMapFragment'/>
 
     <Button
         android:id="@+id/button8"
