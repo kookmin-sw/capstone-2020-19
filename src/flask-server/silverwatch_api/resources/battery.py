@@ -21,7 +21,7 @@ class Battery(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "SELECT watch_battery, time FROM watch_battery WHERE watch_id = %s;"
+            sql = "SELECT wb.id, wb.watch_id, wb.watch_battery, wb.time, wu.name, wu.phone_number FROM watch_battery as wb JOIN watch_user as wu ON wb.watch_id = wu.watch_id; WHERE wb.watch_id = %s;"
             cusor.execute(sql, (watch_id))
             rows = cusor.fetchone()
             # print(rows)
@@ -61,9 +61,11 @@ class BatteryAll(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT * FROM watch_battery;"
+            sql = "SELECT wb.id, wb.watch_id, wb.watch_battery, wb.time, wu.name, wu.phone_number FROM watch_battery as wb JOIN watch_user as wu ON wb.watch_id = wu.watch_id;"
             cusor.execute(sql)
             rows = cusor.fetchall()
+            for i in range(len(rows)):
+                rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
             print(rows)
             #print(result)
             cusor.close()
