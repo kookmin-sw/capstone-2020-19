@@ -1,11 +1,14 @@
 package capstone.kookmin.silverwatchwear;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -35,6 +38,7 @@ public class IntroActivity extends WearableActivity {
             intent.setData(Uri.parse("package:" + getPackageName()));
             startActivity(intent);
         }
+
 
         IntroThread introThread = new IntroThread(handler);
         introThread.start();
