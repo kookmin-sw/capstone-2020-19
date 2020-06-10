@@ -12,6 +12,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +36,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,6 +52,8 @@ public class SendService extends Service {
     String latitude = "";
     String longitude = "";
     LocationManager lm;
+    SensorManager manager;
+    List<Sensor> sensors;
 
     @Override
     public void onCreate() {
@@ -60,6 +67,7 @@ public class SendService extends Service {
     public void onDestroy() {
         super.onDestroy();
         batteryTimer.cancel();
+        gpsTimer.cancel();
         Log.d("service", "on destroy");
     }
 
@@ -77,13 +85,52 @@ public class SendService extends Service {
         }
     }
 
+    public SensorEventListener mySensorLister = new SensorEventListener() {
+
+        @SuppressLint("DefaultLocale")
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            int output = 0;
+            for(int index = 0;index < event.values.length;++index){
+                if (event.values[index] == 1.0){
+                    output = 1;
+                }
+            }
+            WearSendThread wearSendThread = new WearSendThread(wearHandler, uuid, output);
+            wearSendThread.start();
+        }
+
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    public void getSensorList(){
+        manager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensors = manager.getSensorList(Sensor.TYPE_ALL);
+
+        int index = 0;
+        String data = "";
+        for(Sensor sensor : sensors){
+            data += "#" + index + " : " + sensor.getName() + "\n";
+            index++;
+        }
+    }
+    public void registerOffBodySensor(){
+        manager.registerListener(
+                mySensorLister, sensors.get(24), 100000);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         uuid = intent.getStringExtra("watchID");
         Log.d("sendserviceuuid", uuid);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1");
         builder.setSmallIcon(R.mipmap.ic_launcher);
-
+        getSensorList();
+        registerOffBodySensor();
         Notification notification = builder.build();
         startForeground(9, notification);
         Log.d("service", "on start command");
@@ -152,21 +199,13 @@ public class SendService extends Service {
             };
             gpsTimer.schedule(gpsTimeTask, 0, 20000);
             // timer.cancel();//타이머 종료
+            getSensorList();
+            registerOffBodySensor();
+            // TODO: 낙상
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @SuppressLint("MissingPermission")
-    public void update(){
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000,
-                1,
-                gpsLocationListener);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000,
-                1,
-                gpsLocationListener);
-    }
     final LocationListener gpsLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             longitude = String.valueOf(location.getLongitude());
@@ -199,6 +238,16 @@ public class SendService extends Service {
         public void handleMessage(Message msg){
             if (msg.what == 1){
                 Log.d("gps", "success");
+            }
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    Handler wearHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg){
+            if (msg.what == 1){
+                Log.d("wear", "success");
             }
         }
     };
