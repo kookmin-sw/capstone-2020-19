@@ -91,7 +91,6 @@ public class TracerActivity extends AppCompatActivity implements AutoPermissions
             public void onItemClick(UserAdapter.ViewHolder holder, View view, int position) {
                 user_info item = adapter.getItem(position);
                 makeGPSRequest(item.watch_id);
-                Toast.makeText(getApplicationContext(), "아이템 선택됨 : " + item.watch_id, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -112,7 +111,8 @@ public class TracerActivity extends AppCompatActivity implements AutoPermissions
     public void startLocationService(double lat, double lng) {
         LatLng curPoint = new LatLng(lat, lng);
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
-        showMyLocationMarker(curPoint);
+        map.addMarker(new MarkerOptions().position(curPoint));
+        //showMyLocationMarker(curPoint);
     }
     private void showMyLocationMarker(LatLng curPoint) {
         if (myLocationMarker == null) {
@@ -169,8 +169,9 @@ public class TracerActivity extends AppCompatActivity implements AutoPermissions
                         try {
                             latitude = Double.parseDouble(response.getString("latitude"));
                             longitude = Double.parseDouble(response.getString("longitude"));
-                            Toast.makeText(getApplicationContext(), "latitude" + String.format("%f", latitude), Toast.LENGTH_LONG).show();
                             startLocationService(latitude, longitude);
+                            LatLng newPoint = new LatLng(latitude, longitude);
+                            map.addMarker(new MarkerOptions().position(newPoint));
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }
