@@ -21,7 +21,7 @@ class Wear(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try:
-            sql = "SELECT * from watch_wear where watch_id = %s"
+            sql = "SELECT ww.id, ww.watch_id, ww.wear, ww.time, wu.name, wu.phone_number FROM watch_wear as ww JOIN watch_user as wu ON ww.watch_id = wu.watch_id WHERE ww.watch_id = %s;"
             cusor.execute(sql, (watch_id))
             rows = cusor.fetchone()
             wear_result = rows['wear']
@@ -48,6 +48,32 @@ class Wear(Resource):
             db.commit()
             db.close()
             return {"status" : 1}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
+
+    
+class WearAll(Resource):
+    def get(self):
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try: 
+            sql = "SELECT ww.id, ww.watch_id, ww.wear, ww.time, wu.name, wu.phone_number FROM watch_wear as ww JOIN watch_user as wu ON ww.watch_id = wu.watch_id;"
+            cusor.execute(sql)
+            rows = cusor.fetchall()
+            for i in range(len(rows)):
+                try:
+                    rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
+                except:
+                    rows[i]["time"] = "null"
+            print(rows)
+            #print(result)
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "result": rows}
         except Exception:
             cusor.close()
             db.commit()
