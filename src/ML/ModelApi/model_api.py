@@ -191,7 +191,7 @@ def data_post():
         print(p_dict['id'], result[0])
         print('prediction time', pred_end_time - pred_start_time)
         # 낙상인 경우에만 서버에 결과와 함께 전송한다. 
-        if result == 0:
+        if result[0] == 0:
             r = requests.post('http://203.246.112.155:5000/push', data={'watch_id' : p_dict['id'], 'fall_result' : 'fall'})
         return json.dumps({'status' : 200, 'result': result[0]})
 

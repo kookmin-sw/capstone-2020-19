@@ -1,44 +1,36 @@
 package capstone.kookmin.silverwatchwear;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
-public class BatterySendThread extends Thread  {
+public class FallSendThread extends Thread{
     Handler handler;
     String watchID;
-    String percentage;
+    String data;
 
-    public BatterySendThread(Handler handler, String watchID, String percentage){
+    public FallSendThread(Handler handler, String watchID, String data){
         this.handler = handler;
         this.watchID = watchID;
-        this.percentage = percentage;
+        this.data = data;
     }
 
     @Override
     public void run(){
         Message msg = new Message();
         try{
-            String url = "http://203.246.112.155:5000/battery"; 	//URL
+            String url = "http://203.246.112.155:8000"; 	//URL
             HashMap<String, String> param = new HashMap<>();
-            param.put("watch_id", this.watchID);
-            param.put("watch_battery", this.percentage);
+            param.put("id", this.watchID);
+            param.put("data", this.data);
             String json = new JSONObject(param).toString();
             String res = sendPost(url, json);
             msg.what = 1;
