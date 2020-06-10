@@ -23,7 +23,7 @@ class Gps(Resource):
         db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
         cusor = db.cursor(pymysql.cursors.DictCursor)
         try: 
-            sql = "SELECT * FROM watch_gps WHERE watch_id = %s;"
+            sql = "SELECT * FROM watch_gps WHERE watch_id = %s ORDER BY time DESC;"
             cusor.execute(sql, watch_id)
             rows = cusor.fetchone()
             latitude_result = rows['latitude']
@@ -54,6 +54,29 @@ class Gps(Resource):
             db.commit()
             db.close()
             return {"status" : 1}
+        except Exception:
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 0}
+
+
+class GpsAll(Resource):
+    def get(self):
+        db = pymysql.connect(host=HOST, user=USER, password=PASSWORD,charset='utf8', db=DB)
+        cusor = db.cursor(pymysql.cursors.DictCursor)
+        try: 
+            sql = "SELECT * FROM watch_gps;"
+            cusor.execute(sql)
+            rows = cusor.fetchall()
+            for i in range(len(rows)):
+                rows[i]["time"] = rows[i]["time"].strftime("%Y/%m/%d %H:%M:%S")
+            print(rows)
+            #print(result)
+            cusor.close()
+            db.commit()
+            db.close()
+            return {"status" : 1, "result": rows}
         except Exception:
             cusor.close()
             db.commit()
