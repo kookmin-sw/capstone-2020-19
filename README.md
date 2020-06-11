@@ -137,6 +137,7 @@ An all-around care system for elderly that allows guardians to take care of thei
 
 
 
-### 5. 사용법
+### 5. 시스템 구조도
 
-TBD
+![structure](https://user-images.githubusercontent.com/28581854/84361553-d0bc3d00-ac06-11ea-8876-4ed333840764.png)
+
