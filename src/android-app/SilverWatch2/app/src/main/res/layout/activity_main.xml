@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="등록자 관리"
+            android:text="워치 착탈 확인"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="활동량 체크"
+            android:text="배터리 체크"
             android:textSize="30sp" />
     </LinearLayout>
 

@@ -93,7 +93,7 @@ public class registerMenu extends AppCompatActivity {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
-        String url = "http://203.246.112.155:5000/set_watch_id";
+        String url = "http://203.246.112.155:5000/user";
         JSONObject object = new JSONObject();
         try {
             object.put("watch_id", watch_idText.getText().toString());
