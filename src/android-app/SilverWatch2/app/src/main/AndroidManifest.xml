@@ -19,7 +19,7 @@
             android:label="활동량 체크 엑티비티" />
         <activity
             android:name=".ExerciseActivity"
-            android:label="활동량 체크 엑티비티" />
+            android:label="배터리 체크 엑티비티" />
         <activity
             android:name=".settingActivity"
             android:label="사용자 관리 엑티비티" />
@@ -45,8 +45,7 @@
             android:value="wawyp93d4i" />
 
         <service
-            android:name=".MyFireBaseMessagingService"
-            android:exported="false">
+            android:name=".MyFireBaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
